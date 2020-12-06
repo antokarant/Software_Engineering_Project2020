@@ -1,1 +1,3 @@
-# Software_Engineering_Project2020
+# NTUA ECE Software Engineering Project
+
+## Fall 2020
