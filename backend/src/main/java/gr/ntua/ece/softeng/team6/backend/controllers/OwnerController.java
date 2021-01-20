@@ -24,7 +24,7 @@ class OwnerController{
         Owner newOwner(@RequestBody Owner newOwner){
                 return repository.save(newOwner);
         }
-        
+
         @GetMapping("/owners/{id}")
         Owner one(@PathVariable Integer id) {
           return repository.findById(id)
@@ -47,11 +47,10 @@ class OwnerController{
         @PutMapping("/owners/{id}")
         Owner replaceOwner(@RequestBody Owner newOwner, @PathVariable Integer id) {
           return repository.findById(id)
-            .map(Owner -> {
+              .map(Owner -> {
               Owner.setName(newOwner.getName());
               return repository.save(Owner);
-            })
-            .orElseThrow(() -> new OwnerNotFoundException(id));
+            }).orElseThrow(() -> new OwnerNotFoundException(id));
         }
 
 
