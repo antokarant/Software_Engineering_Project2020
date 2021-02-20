@@ -1,8 +1,12 @@
 ## 1024 owners
 ## 1200 cars
-## 50 stations
-## 20 chargers per station
-## 50 * 20 * ~100 sessions
+## 200 stations
+## 10-15 chargers per station
+## 200 * 10-15 * 80-100 sessions
+
+TOTAL_OWNERS = 1024
+TOTAL_VEHICLES = 1200
+TOTAL_STATIONS = 200
 
 from faker import Faker
 import random
@@ -10,6 +14,7 @@ import string
 import json
 from numpy import random as nprandom
 import datetime
+from math import ceil
 
 fake = Faker()
 
@@ -31,7 +36,7 @@ with open("vehicletypes.json", 'w') as f:
 ownerKeys = ["owner_id", "name", "phone"]
 
 with open("randomowners.json", 'w') as f:
-    for i in range(1024): 
+    for i in range(TOTAL_OWNERS): 
         json.dump(dict(zip(ownerKeys, [i + 1, fake.name(), str(random.randint(6900000000, 6999999999))])), f)
         f.write('\n')
 
@@ -39,7 +44,7 @@ with open("randomowners.json", 'w') as f:
 stationKeys = ["station_id", "location", "working_hours", "phone", "average_rating", "operator", "operational_chargers", "cars_waiting", "average_charging_time", "wait_time_estimation"]
 
 with open("randomstations.json", 'w') as f:
-    for i in range(50): 
+    for i in range(TOTAL_STATIONS): 
         location = fake.address()
         working_hours = "06:00 - 24:00"
         phone = str(random.randint(2100000000, 2109999999))
@@ -48,7 +53,7 @@ with open("randomstations.json", 'w') as f:
         operational_chargers = 20 # trigger
         cars_waiting = random.randint(0, 10)
         average_charging_time = random.randint(30, 40) # minutes
-        wait_time_estimation = int(cars_waiting * average_charging_time / operational_chargers)
+        wait_time_estimation = int(cars_waiting * average_charging_time / operational_chargers) # trigger
         
         l = [i + 1, location, working_hours, phone, average_rating, operator, operational_chargers, cars_waiting, average_charging_time, wait_time_estimation]
         json.dump(dict(zip(stationKeys, l)), f)
@@ -65,10 +70,10 @@ with open("vehicletypes.json", 'r') as f:
         ids_list.append(json.loads(line)["id"])
 
 with open("randomvehicles.json", 'w') as v:
-    for i in range(1200):
+    for i in range(TOTAL_VEHICLES):
         license_plate = ''.join(random.choice(letters) for _ in range(3)) + ' ' + ''.join(str(random.randint(0, 9)) for _ in range(4))
-        if(i < 1024): owner_id = i + 1
-        else: owner_id = random.randint(1, 1024)
+        if(i < TOTAL_OWNERS): owner_id = i + 1
+        else: owner_id = random.randint(1, TOTAL_OWNERS)
         vehicle_type_id = random.choice(ids_list)
         json.dump(dict(zip(vehicleKeys, [license_plate, owner_id, vehicle_type_id])), v)
         v.write('\n')
@@ -88,10 +93,10 @@ with open("chargertypes.json", 'w') as c:
 ## Chargers
 
 chargerKeys = ["charger_id", "operational", "station_id", "charger_type_id"]
-chargersPerStation = [random.randint(15, 20) for _ in range(50)]
+chargersPerStation = [random.randint(10, 15) for _ in range(TOTAL_STATIONS)]
 
 with open("randomchargers.json", 'w') as c:
-    for station in range(50):
+    for station in range(TOTAL_STATIONS):
         for charger in range(chargersPerStation[station]):
             operational = random.choices(population = [1, 0], weights = [0.9, 0.1])[0] # choices function returns a list
             charger_type_id = random.choice(range(1, 6))
@@ -107,17 +112,17 @@ with open("randomvehicles.json", 'r') as f:
         platesList.append(json.loads(line)["license_plate"])
 
 with open("randomsessions.json", 'w') as f:
-    for station in range(50):
-        for charger in range(20):
-            x = random.randint(80, 120)
+    for station in range(TOTAL_STATIONS):
+        for charger in range(chargersPerStation[station]):
+            x = random.randint(80, 100)
             for i in range(x):
                 sessionID = i + 1
                 rating = random.choice([None, ceil(nprandom.triangular(1, 4, 5, size = 1)[0])])
                 costPerkWh = round(nprandom.triangular(0.08, 0.11, 0.14, size = 1)[0], 2)
-                energyDelivered = round(nprandom.triangular(0.5, 15.25, 30, size = 1)[0], 2)
+                energyDelivered = round(nprandom.triangular(30, 90, 150, size = 1)[0], 2)
                 totalCost = round(costPerkWh * energyDelivered, 2)
                 paymentMethod = random.choice(["Cash", "Card"])
-                startDate = str(fake.date_between(start_date='-5y', end_date='today'))
+                startDate = str(fake.date_between(start_date = '-5y', end_date = 'today'))
                 endDate = startDate
                 ## peak stupidity
                 ## observe
