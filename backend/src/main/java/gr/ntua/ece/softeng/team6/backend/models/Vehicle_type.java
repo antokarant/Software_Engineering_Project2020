@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Vehicle_type {
 
         @Id
-        private Integer vehicle_type_id;
+        private String id;
 
         @Column(unique = false, nullable = true, length = 32)
         private String brand;
@@ -15,8 +15,8 @@ public class Vehicle_type {
         @Column(unique = false, nullable = true, length = 32)
         private String type;
 
-        @Column(unique = false, nullable = true, length = 32)
-        private Integer brand_id;
+        @Column(unique = false, nullable = true, length = 255)
+        private String brand_id;
 
         @Column(unique = false, nullable = true, length = 32)
         private String model;
@@ -25,7 +25,7 @@ public class Vehicle_type {
         private String release_year;
 
         @Column(unique = false, nullable = true, length = 32)
-        private Integer usable_battery_size;
+        private Float usable_battery_size;
 
         @Column(unique = false, nullable = true, length = 32)
         private String variant;
@@ -35,24 +35,20 @@ public class Vehicle_type {
         }
 
 
-
-
-
-
 	/**
-	* Returns value of vehicle_type_id
+	* Returns value of id
 	* @return
 	*/
-	public Integer getVehicle_type_id() {
-		return vehicle_type_id;
+	public String getId() {
+		return id;
 	}
 
 	/**
-	* Sets new value of vehicle_type_id
+	* Sets new value of id
 	* @param
 	*/
-	public void setVehicle_type_id(Integer vehicle_type_id) {
-		this.vehicle_type_id = vehicle_type_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/**
@@ -91,7 +87,7 @@ public class Vehicle_type {
 	* Returns value of brand_id
 	* @return
 	*/
-	public Integer getBrand_id() {
+	public String getBrand_id() {
 		return brand_id;
 	}
 
@@ -99,7 +95,7 @@ public class Vehicle_type {
 	* Sets new value of brand_id
 	* @param
 	*/
-	public void setBrand_id(Integer brand_id) {
+	public void setBrand_id(String brand_id) {
 		this.brand_id = brand_id;
 	}
 
@@ -139,7 +135,7 @@ public class Vehicle_type {
 	* Returns value of usable_battery_size
 	* @return
 	*/
-	public Integer getUsable_battery_size() {
+	public Float getUsable_battery_size() {
 		return usable_battery_size;
 	}
 
@@ -147,7 +143,7 @@ public class Vehicle_type {
 	* Sets new value of usable_battery_size
 	* @param
 	*/
-	public void setUsable_battery_size(Integer usable_battery_size) {
+	public void setUsable_battery_size(Float usable_battery_size) {
 		this.usable_battery_size = usable_battery_size;
 	}
 

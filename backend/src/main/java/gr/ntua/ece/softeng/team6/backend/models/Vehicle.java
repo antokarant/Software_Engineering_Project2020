@@ -15,6 +15,12 @@ public class Vehicle {
         @OneToOne
         private Vehicle_type vehicle_type;
 
+        /*@Transient
+        private Integer owner_id;
+
+        @Transient
+        private String vehicle_type_id;*/
+
         public Vehicle(){
         }
 
@@ -51,5 +57,32 @@ public class Vehicle {
         public void setVehicle_type(Vehicle_type vehicle_type){
                 this.vehicle_type = vehicle_type;
         }
+
+
+
+
+
+
+	/*
+        public Integer getOwner_id() {
+		return owner_id;
+	}
+
+
+	public void setOwner_id(Integer owner_id) {
+		this.owner_id = owner_id;
+	}
+
+
+	public String getVehicle_type_id() {
+		return vehicle_type_id;
+	}
+
+
+	public void setVehicle_type_id(String vehicle_type_id) {
+		this.vehicle_type_id = vehicle_type_id;
+	}
+        */
+
 
 }
