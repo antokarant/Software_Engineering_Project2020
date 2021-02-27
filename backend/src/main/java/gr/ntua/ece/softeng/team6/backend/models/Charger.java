@@ -7,8 +7,8 @@ import java.io.Serializable;
 @Entity
 public class Charger implements Serializable{
 
-        @Id
-        private Integer id;
+        @EmbeddedId
+        private ChargerId charger_id;
 
         @Column(unique = false, nullable = true, length = 32)
         private String operational;
@@ -16,22 +16,17 @@ public class Charger implements Serializable{
         @ManyToOne
         private Charger_type charger_type;
 
-        @ManyToOne
-        @Id
-        private Station station;
-
-
 
         public Charger(){
         }
 
 
-	public Integer getId() {
-		return id;
+	public ChargerId getCharger_id() {
+		return charger_id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setCharger_id(ChargerId charger_id) {
+		this.charger_id = charger_id;
 	}
 
 
@@ -54,14 +49,5 @@ public class Charger implements Serializable{
 		this.charger_type = charger_type;
 	}
 
-
-	public Station getStation() {
-		return station;
-	}
-
-
-	public void setStation(Station station) {
-		this.station = station;
-	}
 
 }

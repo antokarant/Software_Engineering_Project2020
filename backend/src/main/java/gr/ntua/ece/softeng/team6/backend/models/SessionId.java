@@ -9,50 +9,53 @@ import javax.persistence.*;
 
 
 @Embeddable
-public class ChargerId implements Serializable {
+public class SessionId implements Serializable {
 
     private Integer id;
 
     @ManyToOne
-    private Station station;
+    private Charger charger;
 
-    public ChargerId() {
+    public SessionId() {
     }
 
-    public ChargerId(Integer id, Station station) {
+    public SessionId(Integer id, Charger charger) {
         this.id = id;
-        this.station = station;
+        this.charger = charger;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ChargerId chargerId = (ChargerId) o;
-        return id.equals(chargerId.getId()) &&
-                station.equals(chargerId.getStation());
+        SessionId sessionId = (SessionId) o;
+        return id.equals(sessionId.getId()) &&
+                charger.equals(sessionId.getCharger());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, station);
+        return Objects.hash(id, charger);
     }
 
 
 
-        public Integer getId() {
+	public Integer getId() {
 		return id;
 	}
+
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Station getStation() {
-		return station;
+
+	public Charger getCharger() {
+		return charger;
 	}
 
-	public void setStation(Station station) {
-		this.station = station;
+
+	public void setCharger(Charger charger) {
+		this.charger = charger;
 	}
 }

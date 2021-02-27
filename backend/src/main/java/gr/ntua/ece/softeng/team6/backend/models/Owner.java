@@ -14,7 +14,7 @@ public class Owner {
         private String name;
 
         @Column(unique = false, nullable = true, length = 32)
-        private String phonenumber;
+        private String phone;
 
         public Owner(){
         }
@@ -39,8 +39,8 @@ public class Owner {
         public String getName(){
                 return this.name;
         }
-        public String getPhonenumber(){
-                return this.phonenumber;
+        public String getPhone(){
+                return this.phone;
         }
 
         public void setId(Integer id){
@@ -49,8 +49,8 @@ public class Owner {
         public void setName(String name){
                 this.name = name;
         }
-        public void setPhonenumber(String phonenumber){
-                this.phonenumber = phonenumber;
+        public void setPhone(String phone){
+                this.phone = phone;
         }
 
 }

@@ -55,48 +55,50 @@ class VehicleController{
           repository.deleteById(id);
         }
 
-}
 
-class Helper{
 
-        private String license_plate;
+        private class Helper{
 
-        private Integer owner_id;
+                
 
-        private String vehicle_type_id;
+                private String license_plate;
 
-        public Helper(){
+                private Integer owner_id;
+
+                private String vehicle_type_id;
+
+                public Helper(){
+                }
+
+
+        	public Integer getOwner_id() {
+        		return owner_id;
+        	}
+
+
+        	public void setOwner_id(Integer owner_id) {
+        		this.owner_id = owner_id;
+        	}
+
+
+        	public String getVehicle_type_id() {
+        		return vehicle_type_id;
+        	}
+
+
+        	public void setVehicle_type_id(String vehicle_type_id) {
+        		this.vehicle_type_id = vehicle_type_id;
+        	}
+
+
+
+        	public String getLicense_plate() {
+        		return license_plate;
+        	}
+
+        	public void setLicense_plate(String license_plate) {
+        		this.license_plate = license_plate;
+        	}
+
         }
-
-
-	public Integer getOwner_id() {
-		return owner_id;
-	}
-
-
-	public void setOwner_id(Integer owner_id) {
-		this.owner_id = owner_id;
-	}
-
-
-	public String getVehicle_type_id() {
-		return vehicle_type_id;
-	}
-
-
-	public void setVehicle_type_id(String vehicle_type_id) {
-		this.vehicle_type_id = vehicle_type_id;
-	}
-
-
-
-	public String getLicense_plate() {
-		return license_plate;
-	}
-
-	public void setLicense_plate(String license_plate) {
-		this.license_plate = license_plate;
-	}
-
-
 }
