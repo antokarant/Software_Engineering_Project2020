@@ -71,7 +71,7 @@ with open("vehicletypes.json", 'r') as f:
 
 with open("randomvehicles.json", 'w') as v:
     for i in range(TOTAL_VEHICLES):
-        license_plate = ''.join(random.choice(letters) for _ in range(3)) + ' ' + ''.join(str(random.randint(0, 9)) for _ in range(4))
+        license_plate = ''.join(random.choice(letters) for _ in range(3)) + ''.join(str(random.randint(0, 9)) for _ in range(4))
         if(i < TOTAL_OWNERS): owner_id = i + 1
         else: owner_id = random.randint(1, TOTAL_OWNERS)
         vehicle_type_id = random.choice(ids_list)
