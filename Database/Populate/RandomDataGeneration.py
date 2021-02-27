@@ -33,7 +33,7 @@ with open("vehicletypes.json", 'w') as f:
         f.write('\n')
 
 ## Generate owners
-ownerKeys = ["owner_id", "name", "phone"]
+ownerKeys = ["id", "name", "phone"]
 
 with open("randomowners.json", 'w') as f:
     for i in range(TOTAL_OWNERS): 
@@ -41,7 +41,7 @@ with open("randomowners.json", 'w') as f:
         f.write('\n')
 
 ## Stations
-stationKeys = ["station_id", "location", "working_hours", "phone", "average_rating", "operator", "operational_chargers", "cars_waiting", "average_charging_time", "wait_time_estimation"]
+stationKeys = ["id", "location", "working_hours", "phone", "average_rating", "operator", "operational_chargers", "cars_waiting", "average_charging_time", "wait_time_estimation"]
 
 with open("randomstations.json", 'w') as f:
     for i in range(TOTAL_STATIONS): 
@@ -82,7 +82,7 @@ with open("randomvehicles.json", 'w') as v:
 ## Charger types
 
 powers = [1, 2, 4, 10, 40]
-ctkeys = ["charger_type_id", "title", "power"]
+ctkeys = ["id", "title", "power"]
 
 with open("chargertypes.json", 'w') as c:
     for i in range(5):
@@ -92,7 +92,7 @@ with open("chargertypes.json", 'w') as c:
 
 ## Chargers
 
-chargerKeys = ["charger_id", "operational", "station_id", "charger_type_id"]
+chargerKeys = ["id", "operational", "station_id", "charger_type_id"]
 chargersPerStation = [random.randint(10, 15) for _ in range(TOTAL_STATIONS)]
 
 with open("randomchargers.json", 'w') as c:
@@ -105,7 +105,7 @@ with open("randomchargers.json", 'w') as c:
 
 ## Sessions
 
-sessionKeys = ["session_id", "rating", "cost_per_kWh", "total_cost", "payment_method", "start_date", "start_time", "end_date", "end_time", "energy_delivered", "protocol", "price_policy", "charger_id", "station_id", "license_plate"]
+sessionKeys = ["id", "rating", "cost_per_kWh", "total_cost", "payment_method", "start_date", "start_time", "end_date", "end_time", "energy_delivered", "protocol", "price_policy", "charger_id", "charger_station_id", "license_plate"]
 platesList = []
 with open("randomvehicles.json", 'r') as f:
     for line in f:
