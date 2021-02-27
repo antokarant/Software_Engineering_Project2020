@@ -25,7 +25,7 @@ public class Vehicle_type {
         private String release_year;
 
         @Column(unique = false, nullable = true, length = 32)
-        private Float usable_battery_size;
+        private String usable_battery_size;
 
         @Column(unique = false, nullable = true, length = 32)
         private String variant;
@@ -135,7 +135,7 @@ public class Vehicle_type {
 	* Returns value of usable_battery_size
 	* @return
 	*/
-	public Float getUsable_battery_size() {
+	public String getUsable_battery_size() {
 		return usable_battery_size;
 	}
 
@@ -143,7 +143,7 @@ public class Vehicle_type {
 	* Sets new value of usable_battery_size
 	* @param
 	*/
-	public void setUsable_battery_size(Float usable_battery_size) {
+	public void setUsable_battery_size(String usable_battery_size) {
 		this.usable_battery_size = usable_battery_size;
 	}
 

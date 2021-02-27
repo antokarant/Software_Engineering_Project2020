@@ -16,7 +16,7 @@ public class Station {
         private String working_hours;
 
         @Column(unique = false, nullable = true, length = 32)
-        private Integer phone;
+        private String phone;
 
         @Column(unique = false, nullable = true, length = 32)
         private Float average_rating;
@@ -28,7 +28,7 @@ public class Station {
         private Integer operational_chargers;
 
         @Column(unique = false, nullable = true, length = 32)
-        private Integer cars_wating;
+        private Integer cars_waiting;
 
         @Column(unique = false, nullable = true, length = 32)
         private Float average_charging_time;
@@ -81,12 +81,12 @@ public class Station {
 	}
 
 
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
 
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -121,13 +121,13 @@ public class Station {
 	}
 
 
-	public Integer getCars_wating() {
-		return cars_wating;
+	public Integer getCars_waiting() {
+		return cars_waiting;
 	}
 
 
-	public void setCars_wating(Integer cars_wating) {
-		this.cars_wating = cars_wating;
+	public void setCars_waiting(Integer cars_waiting) {
+		this.cars_waiting = cars_waiting;
 	}
 
 
