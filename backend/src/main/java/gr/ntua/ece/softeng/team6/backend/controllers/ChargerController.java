@@ -21,22 +21,22 @@ class ChargerController{
                 return repository.findAll();
         }
         @PostMapping("/chargers")
-        Charger newCharger(@RequestBody Helper helper){
+        Charger newCharger(@RequestBody Helper_two helper_two){
                 Charger newCharger = new Charger();
                 ChargerId charger_id = new ChargerId();
 
-                charger_id.setId(helper.getId());
+                charger_id.setId(helper_two.getId());
 
                 Station station = new Station();
-                station.setId(helper.getStation_id());
+                station.setId(helper_two.getStation_id());
                 charger_id.setStation(station);
 
-                newCharger.setOperational(helper.getOperational());
+                newCharger.setOperational(helper_two.getOperational());
 
                 newCharger.setCharger_id(charger_id);
 
                 Charger_type Charger_type = new Charger_type();
-                Charger_type.setId(helper.getCharger_type_id());
+                Charger_type.setId(helper_two.getCharger_type_id());
                 newCharger.setCharger_type(Charger_type);
 
                 return  repository.save(newCharger);
@@ -44,11 +44,11 @@ class ChargerController{
         }
 
 
+}
+
+        class Helper_two{
 
 
-        private class Helper{
-
-        
 
                 private Integer id;
 
@@ -57,9 +57,6 @@ class ChargerController{
                 private Integer charger_type_id;
 
                 private String operational;
-
-                public Helper(){
-                }
 
 
         	public Integer getId() {
@@ -101,5 +98,5 @@ class ChargerController{
         		this.operational = operational;
         	}
 
-        }
+
 }

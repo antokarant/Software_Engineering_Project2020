@@ -55,20 +55,17 @@ class VehicleController{
           repository.deleteById(id);
         }
 
+}
+
+        class Helper{
 
 
-        private class Helper{
-
-                
 
                 private String license_plate;
 
                 private Integer owner_id;
 
                 private String vehicle_type_id;
-
-                public Helper(){
-                }
 
 
         	public Integer getOwner_id() {
@@ -101,4 +98,3 @@ class VehicleController{
         	}
 
         }
-}

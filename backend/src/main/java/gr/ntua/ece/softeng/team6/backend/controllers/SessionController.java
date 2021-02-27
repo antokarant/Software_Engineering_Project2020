@@ -21,17 +21,17 @@ class SessionController{
                 return repository.findAll();
         }
         @PostMapping("/sessions")
-        Session newSession(@RequestBody Helper helper){
+        Session newSession(@RequestBody Helper_three helper_three){
                 Session newSession = new Session();
                 SessionId session_id = new SessionId();
 
-                session_id.setId(helper.getId());
+                session_id.setId(helper_three.getId());
 
                 Charger charger = new Charger();
                 ChargerId charger_id = new ChargerId();
-                charger_id.setId(helper.getCharger_id());
+                charger_id.setId(helper_three.getCharger_id());
                 Station station = new Station();
-                station.setId(helper.getStation_id());
+                station.setId(helper_three.getCharger_station_id());
                 charger_id.setStation(station);
                 charger.setCharger_id(charger_id);
 
@@ -39,43 +39,43 @@ class SessionController{
 
                 newSession.setSession_id(session_id);
 
-                newSession.setRating(helper.getRating());
+                newSession.setRating(helper_three.getRating());
 
-                newSession.setCost_per_kWh(helper.getCost_per_kWh());
+                newSession.setCost_per_kWh(helper_three.getCost_per_kWh());
 
                 Vehicle newVehicle = new Vehicle();
-                newVehicle.setLicense_plate(helper.getLicense_plate());
+                newVehicle.setLicense_plate(helper_three.getLicense_plate());
                 newSession.setVehicle(newVehicle);
 
-                newSession.setTotal_cost(helper.getTotal_cost());
+                newSession.setTotal_cost(helper_three.getTotal_cost());
 
-                newSession.setStart_date(helper.getStart_date());
+                newSession.setStart_date(helper_three.getStart_date());
 
-                newSession.setStart_time(helper.getStart_time());
+                newSession.setStart_time(helper_three.getStart_time());
 
-                newSession.setEnd_date(helper.getEnd_date());
+                newSession.setEnd_date(helper_three.getEnd_date());
 
-                newSession.setEnd_time(helper.getEnd_time());
+                newSession.setEnd_time(helper_three.getEnd_time());
 
-                newSession.setEnergy_delivered(helper.getEnergy_delivered());
+                newSession.setEnergy_delivered(helper_three.getEnergy_delivered());
 
-                newSession.setProtocol(helper.getProtocol());
+                newSession.setProtocol(helper_three.getProtocol());
 
-                newSession.setPrice_policy(helper.getPrice_policy());
+                newSession.setPrice_policy(helper_three.getPrice_policy());
 
                 return  repository.save(newSession);
 
         }
 
+}
 
 
-
-        private class Helper{
+        class Helper_three{
 
 
                 private Integer id;
 
-                private Integer station_id;
+                private Integer charger_station_id;
 
                 private Integer charger_id;
 
@@ -105,12 +105,6 @@ class SessionController{
 
 
 
-
-        	public SessionRepository getRepository() {
-        		return repository;
-        	}
-
-
         	public Integer getId() {
         		return id;
         	}
@@ -121,13 +115,13 @@ class SessionController{
         	}
 
 
-        	public Integer getStation_id() {
-        		return station_id;
+        	public Integer getCharger_station_id() {
+        		return charger_station_id;
         	}
 
 
-        	public void setStation_id(Integer station_id) {
-        		this.station_id = station_id;
+        	public void setCharger_station_id(Integer charger_station_id) {
+        		this.charger_station_id = charger_station_id;
         	}
 
 
@@ -261,4 +255,3 @@ class SessionController{
         	}
 
         }
-}
