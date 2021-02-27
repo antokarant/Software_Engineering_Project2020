@@ -31,7 +31,7 @@ class SessionController{
                 ChargerId charger_id = new ChargerId();
                 charger_id.setId(helper_three.getCharger_id());
                 Station station = new Station();
-                station.setId(helper_three.getCharger_station_id());
+                // station.setId(helper_three.getCharger_station_id());
                 charger_id.setStation(station);
                 charger.setCharger_id(charger_id);
 
@@ -60,6 +60,8 @@ class SessionController{
                 newSession.setEnergy_delivered(helper_three.getEnergy_delivered());
 
                 newSession.setProtocol(helper_three.getProtocol());
+
+                newSession.setPayment_method(helper_three.getPayment_method());
 
                 newSession.setPrice_policy(helper_three.getPrice_policy());
 
