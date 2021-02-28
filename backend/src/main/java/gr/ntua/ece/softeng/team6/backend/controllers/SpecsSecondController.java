@@ -45,5 +45,28 @@ class SpecsSecondController{
 
         }
 
+        @GetMapping("/SessionsPerEV/{vehicleID}/{yyyymmdd_from}/{yyyymmdd_to}")
+        List<Session> specsthird(@PathVariable String vehicleID,@PathVariable String yyyymmdd_from, @PathVariable String yyyymmdd_to){
+                List<Session> result = new LinkedList<Session>();
+                try{
+                        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+                        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date start = df.parse(yyyymmdd_from);
+                        Date end = df.parse(yyyymmdd_to);
+
+                        List<Session> list = repository.findAll();
+                        for(Session s : list){
+                                Date current = df2.parse(s.getStart_date());
+                                if(current.after(start) && current.before(end)  && s.getVehicle().getLicense_plate().equals(vehicleID))
+                                        result.add(s);
+                        }
+                }catch(ParseException e){
+                        e.printStackTrace();
+                }
+
+                return result;
+
+        }
+
 
 }
