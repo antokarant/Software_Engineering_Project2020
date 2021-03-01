@@ -33,6 +33,9 @@ public class Station {
         @Column(unique = false, nullable = true, length = 32)
         private Float average_charging_time;
 
+        @Column(unique = false, nullable = true, length = 32)
+        private String energy_provider;
+
         public Station(){
         }
 
@@ -138,6 +141,14 @@ public class Station {
 
 	public void setAverage_charging_time(Float average_charging_time) {
 		this.average_charging_time = average_charging_time;
+	}
+
+        public String getEnergy_provider() {
+		return energy_provider;
+	}
+
+	public void setEnergy_provider(String energy_provider) {
+		this.energy_provider = energy_provider;
 	}
 
 
