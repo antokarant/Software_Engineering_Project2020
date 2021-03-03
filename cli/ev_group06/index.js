@@ -53,6 +53,7 @@ const sessionsPerEV = (ev, datefrom, dateto) => {
 const sessionsPerProvider = (provider, datefrom, dateto) => {
         let url = `https://localhost:8765/evcharge/api/SessionsPerProvider/${provider}/${datefrom}/${dateto}`;
         //let encoded_url = encodeURIComponent(url);
+        //let encoded_url = encodeURI(url);
         //console.log(encoded_url);
         https.get(url, res => {
                 res.pipe(JSONStream.parse()).on('data', function (obj) {
