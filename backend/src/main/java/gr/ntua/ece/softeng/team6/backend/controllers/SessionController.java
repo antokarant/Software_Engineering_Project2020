@@ -31,7 +31,7 @@ class SessionController{
                 ChargerId charger_id = new ChargerId();
                 charger_id.setId(helper_three.getCharger_id());
                 Station station = new Station();
-                // station.setId(helper_three.getCharger_station_id());
+                station.setId(helper_three.getCharger_station_id()); //htan se sxolio gia kapoio logo
                 charger_id.setStation(station);
                 charger.setCharger_id(charger_id);
 
