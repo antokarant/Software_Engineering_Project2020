@@ -8,56 +8,238 @@ const app = express();
 const port = 8000;
 const bodyparser = require('body-parser');
 var request = require('http').request,
-    parseUrl = require('url').parse,
-    JSONStream = require('JSONStream');
+        parseUrl = require('url').parse,
+        JSONStream = require('JSONStream');
+const axios = require('axios');
+fs = require('fs');
 
 
 //SessionsPerStation
 const sessionsPerStation = (station, datefrom, dateto) => {
         let url = `https://localhost:8765/evcharge/api/SessionsPerStation/${station}/${datefrom}/${dateto}`;
+
+        fs.readFile('./token.token', 'utf8', (err, data) => {
+                if (err) {
+                        console.error(err)
+                        return
+                }
+                axios.get(url, {
+                                headers: {
+                                        Authorization: `Bearer ${data}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+                                console.log(util.inspect(obj, {
+                                        showHidden: false,
+                                        depth: null
+                                }));
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+        });
+
         //console.log(url);
         //console.log(station);
         //console.log(datefrom);
-        https.get(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function (obj) {
-                        console.log(util.inspect(obj, {showHidden: false, depth: null}));
+        /*https.get(url, res => {
+                res.pipe(JSONStream.parse()).on('data', function(obj) {
+                        console.log(util.inspect(obj, {
+                                showHidden: false,
+                                depth: null
+                        }));
                 });
-      });
+        });*/
 }
 
 //SessionsPerPoint
 const sessionsPerPoint = (station, point, datefrom, dateto) => {
         let url = `https://localhost:8765/evcharge/api/SessionsPerPoint/${station}/${point}/${datefrom}/${dateto}`;
-        https.get(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function (obj) {
-                        console.log(util.inspect(obj, {showHidden: false, depth: null}));
-                });
+
+        fs.readFile('./token.token', 'utf8', (err, data) => {
+                if (err) {
+                        console.error(err)
+                        return
+                }
+                axios.get(url, {
+                                headers: {
+                                        Authorization: `Bearer ${data}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+                                console.log(util.inspect(obj, {
+                                        showHidden: false,
+                                        depth: null
+                                }));
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
         });
+
+        /*https.get(url, res => {
+                res.pipe(JSONStream.parse()).on('data', function(obj) {
+                        console.log(util.inspect(obj, {
+                                showHidden: false,
+                                depth: null
+                        }));
+                });
+        });*/
 
 }
 
 //SessionsPerEv
 const sessionsPerEV = (ev, datefrom, dateto) => {
         let url = `https://localhost:8765/evcharge/api/SessionsPerPoint/${ev}/${datefrom}/${dateto}`;
+
+        fs.readFile('./token.token', 'utf8', (err, data) => {
+                if (err) {
+                        console.error(err)
+                        return
+                }
+                axios.get(url, {
+                                headers: {
+                                        Authorization: `Bearer ${data}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+                                console.log(util.inspect(obj, {
+                                        showHidden: false,
+                                        depth: null
+                                }));
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+        });
         //let encoded_url = encodeURIComponent(url);
         //console.log(encoded_url);
-        https.get(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function (obj) {
-                        console.log(util.inspect(obj, {showHidden: false, depth: null}));
+        /*https.get(url, res => {
+                res.pipe(JSONStream.parse()).on('data', function(obj) {
+                        console.log(util.inspect(obj, {
+                                showHidden: false,
+                                depth: null
+                        }));
                 });
-        });
+        });*/
 
 }
 
 //SessionsPerProvider
 const sessionsPerProvider = (provider, datefrom, dateto) => {
+
         let url = `https://localhost:8765/evcharge/api/SessionsPerProvider/${provider}/${datefrom}/${dateto}`;
+
+        fs.readFile('./token.token', 'utf8', (err, data) => {
+                if (err) {
+                        console.error(err)
+                        return
+                }
+                axios.get(url, {
+                                headers: {
+                                        Authorization: `Bearer ${data}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+                                console.log(util.inspect(obj, {
+                                        showHidden: false,
+                                        depth: null
+                                }));
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+        });
+
+        /*https.get(url, res => {
+                res.pipe(JSONStream.parse()).on('data', function(obj) {
+                        console.log(util.inspect(obj, {
+                                showHidden: false,
+                                depth: null
+                        }));
+                });
+        });*/
+}
+const login = (username, password) => {
+        let url = `https://localhost:8765/evcharge/api/login`;
+        axios.post(url, null, {
+                        params: {
+                                "username": username,
+                                "password": password
+                        }
+                }).then(res => {
+                        let obj = res.data;
+                        JSON.stringify(obj)
+                        fs.writeFile("./token.token", obj.token, function(err) {
+                                if (err) return console.log(err);
+                                console.log(res.data);
+                        });
+
+                })
+                .catch(error => {
+                        console.error(error)
+                });
+        //let encoded_url = encodeURIComponent(url);
+        //let encoded_url = encodeURI(url);
+        //console.log(encoded_url);
+        //https.get(url, res => {
+        //        res.pipe(JSONStream.parse()).on('data', function (obj) {
+        //                console.log(util.inspect(obj, {showHidden: false, depth: null}));
+        //        });
+        //});
+
+}
+const logout = () => {
+        const path = './token.token'
+
+        fs.unlink(path, (err) => {
+                if (err) {
+                        console.error(err)
+                        return
+                }
+
+                //file removed
+        })
+}
+
+const healthckeck = () => {
+        let url = `https://localhost:8765/evcharge/api/admin/healthcheck`;
         //let encoded_url = encodeURIComponent(url);
         //let encoded_url = encodeURI(url);
         //console.log(encoded_url);
         https.get(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function (obj) {
-                        console.log(util.inspect(obj, {showHidden: false, depth: null}));
+                res.pipe(JSONStream.parse()).on('data', function(obj) {
+                        console.log(util.inspect(obj, {
+                                showHidden: false,
+                                depth: null
+                        }));
+                });
+        });
+
+}
+const resetsessions = () => {
+        let url = `https://localhost:8765/evcharge/api/admin/resetsessions`;
+        //let encoded_url = encodeURIComponent(url);
+        //let encoded_url = encodeURI(url);
+        //console.log(encoded_url);
+        https.post(url, res => {
+                res.pipe(JSONStream.parse()).on('data', function(obj) {
+                        console.log(util.inspect(obj, {
+                                showHidden: false,
+                                depth: null
+                        }));
                 });
         });
 
@@ -67,45 +249,9 @@ module.exports = {
         sessionsPerStation,
         sessionsPerPoint,
         sessionsPerEV,
-        sessionsPerProvider
+        sessionsPerProvider,
+        login,
+        logout,
+        healthckeck,
+        resetsessions
 }
-
-
-
-
-//middlewares
-/*app.use(bodyparser.json());
-
-app.listen(port, () => {
-        console.log(`example app listening on port ${port}!`);
-});
-*/
-/*app.get('/',(req,res) => {
-        https.get('https://localhost:8765/evcharge/api/SessionsPerPoint/17/1/2016225/20180125',
-        resb => {
-            resb.on('data', data => {
-                    res.send(JSON.parse(data));
-                    console.log(JSON.parse(data));
-
-            });
-        });
-
-});*/
-/*
-const readline = require('readline');
-var rl = readline.createInterface({
- input: process.stdin,
- output: process.stdout
-});
-
-var waitForUserInput = function() {
-  rl.question("Command: ", function(answer) {
-    if (answer == "exit"){
-        rl.close();
-    } else {
-        waitForUserInput();
-    }
-  });
-};
-waitForUserInput();
-*/

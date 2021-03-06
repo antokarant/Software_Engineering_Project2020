@@ -38,7 +38,7 @@ public class LoginController {
                         	return "wrong password";
 
 			String token = getJWTToken(username,curUser.getRole());
-			return token;
+			return "{\"token\": \"" + token + "\"}";
                 }catch(Exception e){
 			return "invalid user";
 		}
@@ -65,6 +65,6 @@ public class LoginController {
 				.signWith(SignatureAlgorithm.HS512,
 						secretKey.getBytes()).compact();
 
-		return "Bearer " + token;
+		return  token;
 	}
 }

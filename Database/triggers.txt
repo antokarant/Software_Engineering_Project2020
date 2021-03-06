@@ -1,0 +1,25 @@
+session_AFTER_INSERT
+
+CREATE DEFINER = CURRENT_USER TRIGGER `database_name`.`session_AFTER_INSERT` AFTER INSERT ON `session` FOR EACH ROW
+BEGIN
+SET @n = (SELECT COUNT(*) FROM session WHERE session.charger_station_id = NEW.charger_station_id);
+UPDATE station SET average_rating = (((@n - 1) * average_rating + NEW.rating) / @n) WHERE station.id = NEW.charger_station_id;
+END
+
+----------
+
+charger_AFTER_INSERT
+
+CREATE DEFINER = CURRENT_USER TRIGGER `database_name`.`charger_AFTER_INSERT` AFTER INSERT ON `charger` FOR EACH ROW
+BEGIN
+UPDATE station SET station.operational_chargers = IF(NEW.operational = 1, station.operational_chargers + 1, station.operational_chargers) WHERE station.id = NEW.station_id;
+END
+
+----------
+
+charger_AFTER_UPDATE
+
+CREATE DEFINER = CURRENT_USER TRIGGER `database_name`.`charger_AFTER_UPDATE` AFTER UPDATE ON `charger` FOR EACH ROW
+BEGIN
+UPDATE station SET station.operational_chargers = IF(OLD.operational = 0 AND NEW.operational = 1, station.operational_chargers + 1, IF(OLD.operational = 1 AND NEW.operational = 0, station.operational_chargers - 1, station.operational_chargers)) WHERE station.id = NEW.station_id; 
+END

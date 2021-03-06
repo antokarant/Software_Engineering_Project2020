@@ -22,10 +22,10 @@ class HelpingController{
                 String result;
                 try{
                         List<User> test= repository.findAll();
-                        result = "\"status\":\"OK\"";
+                        result = "{\"status\": \"OK\"}";
 
                 }catch(Exception x){
-                        result = "\"status\":\"failed\"";
+                        result = "{\"status\": \"failed\"}";
 
                 }
                 return result;
@@ -42,10 +42,10 @@ class HelpingController{
                         newuser.setRole("ADMIN");
                         repository.save(newuser);
 
-                        result = "\"status\":\"OK\"";
+                        result = "{\"status\": \"OK\"}";
 
                 }catch(Exception x){
-                        result = "\"status\":\"failed\"";
+                        result = "{\"status\": \"failed\"}";
 
                 }
                 return result;

@@ -4,7 +4,16 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
 const program = require("commander");
 
-const {sessionsPerStation, sessionsPerPoint, sessionsPerEV, sessionsPerProvider} = require('./index.js');
+const {
+        sessionsPerStation,
+        sessionsPerPoint,
+        sessionsPerEV,
+        sessionsPerProvider,
+        login,
+        logout,
+        healthckeck,
+        resetsessions
+} = require('./index.js');
 
 program
         .version('1.0.0')
@@ -52,6 +61,32 @@ program
         .requiredOption("--dateto <dateto>", "choose dateto")
         .action((options) => {
                 sessionsPerProvider(options.provider, options.datefrom, options.dateto);
+        });
+
+program
+        .command('login')
+        .requiredOption("--username <username>", "enter username")
+        .requiredOption("--password <password>", "enter password")
+        .action((options) => {
+                login(options.username, options.password);
+        });
+
+program
+        .command('logout')
+        .action(() => {
+                logout();
+        });
+
+program
+        .command('healthckeck')
+        .action(() => {
+                healthckeck();
+        });
+
+program
+        .command('resetsessions')
+        .action(() => {
+                resetsessions();
         });
 
 
