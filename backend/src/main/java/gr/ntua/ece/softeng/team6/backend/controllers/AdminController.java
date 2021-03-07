@@ -200,7 +200,7 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
                 e.printStackTrace();
         }
 
-        return "{\"SessionsInUploadedFile\" : " +counter + ", \"SessionsImported\" : "+ counter2+ ", \" TotalSessionsInDatabase\": " + repositorys.count() + "}";       //new ModelAndView("status", "message", "File Uploaded sucessfully");
+        return "{\"SessionsInUploadedFile\" : " +counter + ", \"SessionsImported\" : "+ counter2+ ", \"TotalSessionsInDatabase\": " + repositorys.count() + "}";       //new ModelAndView("status", "message", "File Uploaded sucessfully");
 
 }
 }

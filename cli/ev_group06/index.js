@@ -12,6 +12,7 @@ var request = require('http').request,
         JSONStream = require('JSONStream');
 const axios = require('axios');
 fs = require('fs');
+var FormData = require('form-data');
 
 
 //SessionsPerStation
@@ -234,13 +235,133 @@ const resetsessions = () => {
         //let encoded_url = encodeURIComponent(url);
         //let encoded_url = encodeURI(url);
         //console.log(encoded_url);
-        https.post(url, res => {
+        /*https.post(url, res => {
                 res.pipe(JSONStream.parse()).on('data', function(obj) {
                         console.log(util.inspect(obj, {
                                 showHidden: false,
                                 depth: null
                         }));
                 });
+        });*/
+        axios.post(url, null)
+                .then(res => {
+                        let obj = res.data;
+                        JSON.stringify(obj)
+                        console.log(util.inspect(obj, {
+                                showHidden: false,
+                                depth: null
+                        }));
+                })
+                .catch(error => {
+                        console.error(error)
+                });
+
+}
+
+const usermod = (username, password) => {
+
+        let url = `https://localhost:8765/evcharge/api/admin/usermod/${username}/${password}`;
+
+        fs.readFile('./token.token', 'utf8', (err, data) => {
+                if (err) {
+                        console.error(err)
+                        return
+                }
+                axios.post(url, null, {
+                                headers: {
+                                        Authorization: `Bearer ${data}`
+                                }
+                        }).then(res => {
+                                console.log(res.data);
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+        });
+
+}
+
+const users = (username) => {
+
+        let url = `https://localhost:8765/evcharge/api/admin/users/${username}`;
+
+        fs.readFile('./token.token', 'utf8', (err, data) => {
+                if (err) {
+                        console.error(err)
+                        return
+                }
+                axios.get(url, {
+                                headers: {
+                                        Authorization: `Bearer ${data}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+                                console.log(util.inspect(obj, {
+                                        showHidden: false,
+                                        depth: null
+                                }));
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+        });
+
+}
+
+const sessionsupd = (source) => {
+
+        let url = `https://localhost:8765/evcharge/api/admin/system/sessionsupd`;
+
+        var newFile = fs.createReadStream(source);
+        const form_data = new FormData();
+
+        form_data.append("file", newFile);
+
+        //var imagefile = document.querySelector('#file');
+//formData.append("image", imagefile.files[0]);
+
+
+        fs.readFile('./token.token', 'utf8', (err, data) => {
+                if (err) {
+                        console.error(err)
+                        return
+                }
+                /*const request_config = {
+                        method: "post",
+                        url: url,
+                        headers: {
+                                "Authorization": `Bearer ${data}`,
+                                "Content-Type": "multipart/form-data"
+                        },
+                        data: form_data
+                };
+                axios.request(request_config)*/
+                axios.post(url, form_data, {
+                                headers: {
+                                        Authorization: `Bearer ${data}`,
+                                        //"Content-Type": "multipart/form-data"
+                                        'Content-Type': `multipart/form-data; boundary=${form_data._boundary}`
+                                }
+                        }).then(res => {
+                                console.log(res.data)
+                                /*let obj = res.data;
+                                JSON.stringify(obj)
+                                console.log(util.inspect(obj, {
+                                        showHidden: false,
+                                        depth: null
+                                }));*/
+
+                        })
+                        .catch(error => {
+                                console.log("we drank it")
+                                console.error(error)
+                        });
+
         });
 
 }
@@ -253,5 +374,8 @@ module.exports = {
         login,
         logout,
         healthckeck,
-        resetsessions
+        resetsessions,
+        usermod,
+        users,
+        sessionsupd
 }

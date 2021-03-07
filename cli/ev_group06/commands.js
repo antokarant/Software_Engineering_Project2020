@@ -12,7 +12,10 @@ const {
         login,
         logout,
         healthckeck,
-        resetsessions
+        resetsessions,
+        usermod,
+        users,
+        sessionsupd
 } = require('./index.js');
 
 program
@@ -88,6 +91,47 @@ program
         .action(() => {
                 resetsessions();
         });
+
+program
+        .command('admin')
+        .option("--usermod", "create user or change password")
+        .option("--sessionsupd", "upload sessions")
+        .option("--username <username>", "give username")
+        .option("--passw <password>", "give password")
+        .option("--users <user>", "get user info")
+        .option("--source <source>", "give file source")
+        .action((options) => {
+                /*if(options.usermod && options.username && options.passw && (options.users || options.sessionsupd || options.source)){
+                        console.log("you have to choose exactly one option 1")
+                        return;
+                }*/
+                if(options.usermod && options.username && options.passw && (!options.users && !options.source && !options.sessionsupd)){
+                        console.log("usermod beach");
+                        usermod(options.username, options.passw);
+                        return;
+                }
+                /*else if(options.username && options.passw && (!options.users && !options.source && !options.sessionsupd && !options.usermod)){
+                        console.log("username beach");
+                        username(options.username, options.passw)
+                        return;
+                }*/
+                else if(options.users && (!options.username && !options.passw && !options.source && !options.sessionsupd && !options.usermod)){
+                        console.log("users beach");
+                        users(options.users);
+                        return;
+                }
+                else if(options.sessionsupd && options.source && (!options.username && !options.passw && !options.users && !options.usermod)){
+                        console.log("sessionsupd beach");
+                        sessionsupd(options.source);
+                        return;
+                }
+                else{
+                        console.log("you can choose only one legit combination see specifications")
+                return;
+                }
+
+        });
+
 
 
 program.parse(process.argv);
