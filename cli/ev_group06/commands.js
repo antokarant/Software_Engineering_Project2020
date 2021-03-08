@@ -11,7 +11,7 @@ const {
         sessionsPerProvider,
         login,
         logout,
-        healthckeck,
+        healthcheck,
         resetsessions,
         usermod,
         users,
@@ -81,9 +81,9 @@ program
         });
 
 program
-        .command('healthckeck')
+        .command('healthcheck')
         .action(() => {
-                healthckeck();
+                healthcheck();
         });
 
 program
@@ -106,7 +106,7 @@ program
                         return;
                 }*/
                 if(options.usermod && options.username && options.passw && (!options.users && !options.source && !options.sessionsupd)){
-                        console.log("usermod beach");
+                        //console.log("usermod");
                         usermod(options.username, options.passw);
                         return;
                 }
@@ -116,12 +116,12 @@ program
                         return;
                 }*/
                 else if(options.users && (!options.username && !options.passw && !options.source && !options.sessionsupd && !options.usermod)){
-                        console.log("users beach");
+                        //console.log("users");
                         users(options.users);
                         return;
                 }
                 else if(options.sessionsupd && options.source && (!options.username && !options.passw && !options.users && !options.usermod)){
-                        console.log("sessionsupd beach");
+                        //console.log("sessionsupd");
                         sessionsupd(options.source);
                         return;
                 }

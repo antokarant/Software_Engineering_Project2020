@@ -102,7 +102,7 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
 
                         for(int i = 0; i < nextLine.length; i++) {
                                 myMap.put(nextLine[i],i);
-                                System.out.println(nextLine[i]);
+                                //System.out.println(nextLine[i]);
 
                         }
                 }catch(Exception e) {
@@ -147,7 +147,7 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
                                         newSession.setRating(-1f);
 
                                 if(nextLine[myMap.get("id")]!=null)
-                                        newSession.setCost_per_kwh(Float.valueOf(nextLine[myMap.get("cost_per_kWh")]));
+                                        newSession.setCost_per_kwh(Float.valueOf(nextLine[myMap.get("cost_per_kwh")]));
                                 else
                                         newSession.setCost_per_kwh(-1f);
 
@@ -188,20 +188,20 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
                                 counter++;
                                 repositorys.save(newSession);
                         }catch(Exception e) {
-
+                                System.out.println("oops could not import check your files");
                         }
                         counter2++;
                 }
 
 
 
-                Files.delete(path);
+                //Files.delete(path);
 
         } catch (IOException e) {
                 e.printStackTrace();
         }
 
-        return "{\"SessionsInUploadedFile\" : " +counter + ", \"SessionsImported\" : "+ counter2+ ", \"TotalSessionsInDatabase\": " + repositorys.count() + "}";       //new ModelAndView("status", "message", "File Uploaded sucessfully");
+        return "{\"SessionsInUploadedFile\" : " +counter2 + ", \"SessionsImported\" : "+ counter + ", \"TotalSessionsInDatabase\": " + repositorys.count() + "}";       //new ModelAndView("status", "message", "File Uploaded sucessfully");
 
 }
 }

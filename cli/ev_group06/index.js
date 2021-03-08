@@ -190,7 +190,7 @@ const login = (username, password) => {
 
                 })
                 .catch(error => {
-                        console.error(error)
+                        console.error("error")
                 });
         //let encoded_url = encodeURIComponent(url);
         //let encoded_url = encodeURI(url);
@@ -215,7 +215,7 @@ const logout = () => {
         })
 }
 
-const healthckeck = () => {
+const healthcheck = () => {
         let url = `https://localhost:8765/evcharge/api/admin/healthcheck`;
         //let encoded_url = encodeURIComponent(url);
         //let encoded_url = encodeURI(url);
@@ -373,7 +373,7 @@ module.exports = {
         sessionsPerProvider,
         login,
         logout,
-        healthckeck,
+        healthcheck,
         resetsessions,
         usermod,
         users,
