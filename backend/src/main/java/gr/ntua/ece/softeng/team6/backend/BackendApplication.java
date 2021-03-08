@@ -32,11 +32,21 @@ public class BackendApplication {
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.antMatchers(HttpMethod.GET, "/admin/healthcheck").permitAll()
+				//.antMatchers(HttpMethod.GET, "/admin/testing/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/admin/usermod").hasRole("ADMIN")
 				.antMatchers(HttpMethod.GET, "/admin/users").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/admin/system/sessionsupd").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/admin/resetsessions").permitAll()
 				.antMatchers(HttpMethod.POST, "/users").permitAll()
+				.antMatchers(HttpMethod.POST, "/owners").permitAll()
+				.antMatchers(HttpMethod.POST, "/vehicle_types").permitAll()
+				.antMatchers(HttpMethod.POST, "/charger_types").permitAll()
+				.antMatchers(HttpMethod.POST, "/stations").permitAll()
+				.antMatchers(HttpMethod.POST, "/chargers").permitAll()
+				.antMatchers(HttpMethod.POST, "/vehicles").permitAll()
+				.antMatchers(HttpMethod.POST, "/sessions").permitAll()
+
+
 				.anyRequest().authenticated();
 		}
 	}

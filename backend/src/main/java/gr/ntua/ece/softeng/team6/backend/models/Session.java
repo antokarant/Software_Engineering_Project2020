@@ -17,7 +17,7 @@ public class Session implements Serializable{
         private Vehicle vehicle;
 
         @Column(unique = false, nullable = true, length = 32)
-        private Float cost_per_kWh;
+        private Float cost_per_kwh;
 
         @Column(unique = false, nullable = true, length = 32)
         private Float total_cost;
@@ -26,16 +26,16 @@ public class Session implements Serializable{
         private String payment_method;
 
         @Column(unique = false, nullable = true, length = 32)
-        private String start_date;
+        private java.sql.Date start_date;
 
         @Column(unique = false, nullable = true, length = 32)
-        private String start_time;
+        private java.sql.Time start_time;
 
         @Column(unique = false, nullable = true, length = 32)
-        private String end_date;
+        private java.sql.Date end_date;
 
         @Column(unique = false, nullable = true, length = 32)
-        private String end_time;
+        private java.sql.Time end_time;
 
         @Column(unique = false, nullable = true, length = 32)
         private Float energy_delivered;
@@ -80,13 +80,13 @@ public class Session implements Serializable{
 	}
 
 
-	public Float getCost_per_kWh() {
-		return cost_per_kWh;
+	public Float getCost_per_kwh() {
+		return cost_per_kwh;
 	}
 
 
-	public void setCost_per_kWh(Float cost_per_kWh) {
-		this.cost_per_kWh = cost_per_kWh;
+	public void setCost_per_kwh(Float cost_per_kwh) {
+		this.cost_per_kwh = cost_per_kwh;
 	}
 
 
@@ -110,42 +110,42 @@ public class Session implements Serializable{
 	}
 
 
-	public String getStart_date() {
+	public java.sql.Date getStart_date() {
 		return start_date;
 	}
 
 
-	public void setStart_date(String start_date) {
+	public void setStart_date(java.sql.Date start_date) {
 		this.start_date = start_date;
 	}
 
 
-	public String getStart_time() {
+	public java.sql.Time getStart_time() {
 		return start_time;
 	}
 
 
-	public void setStart_time(String start_time) {
+	public void setStart_time(java.sql.Time start_time) {
 		this.start_time = start_time;
 	}
 
 
-	public String getEnd_date() {
+	public java.sql.Date getEnd_date() {
 		return end_date;
 	}
 
 
-	public void setEnd_date(String end_date) {
+	public void setEnd_date(java.sql.Date end_date) {
 		this.end_date = end_date;
 	}
 
 
-	public String getEnd_time() {
+	public java.sql.Time getEnd_time() {
 		return end_time;
 	}
 
 
-	public void setEnd_time(String end_time) {
+	public void setEnd_time(java.sql.Time end_time) {
 		this.end_time = end_time;
 	}
 

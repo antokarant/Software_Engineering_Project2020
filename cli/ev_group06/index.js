@@ -97,7 +97,7 @@ const sessionsPerPoint = (station, point, datefrom, dateto) => {
 
 //SessionsPerEv
 const sessionsPerEV = (ev, datefrom, dateto) => {
-        let url = `https://localhost:8765/evcharge/api/SessionsPerPoint/${ev}/${datefrom}/${dateto}`;
+        let url = `https://localhost:8765/evcharge/api/SessionsPerEV/${ev}/${datefrom}/${dateto}`;
 
         fs.readFile('./token.token', 'utf8', (err, data) => {
                 if (err) {

@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.sql.Timestamp;
+
 import java.io.FileReader;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,6 +33,7 @@ import java.util.*;
 
 @RestController
 class AdminController {
+
 
 private final UserRepository repository;
 private final SessionRepository repositorys;
@@ -64,8 +67,6 @@ User users(@PathVariable String username){
                .orElseThrow(()->new UserNotFoundException(username));
 
 }
-
-//private static String UPLOAD_FOLDER = "C://test//";
 
 @PostMapping("/admin/system/sessionsupd")
 public String fileUpload(@RequestParam("file") MultipartFile file) {
@@ -146,9 +147,9 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
                                         newSession.setRating(-1f);
 
                                 if(nextLine[myMap.get("id")]!=null)
-                                        newSession.setCost_per_kWh(Float.valueOf(nextLine[myMap.get("cost_per_kWh")]));
+                                        newSession.setCost_per_kwh(Float.valueOf(nextLine[myMap.get("cost_per_kWh")]));
                                 else
-                                        newSession.setCost_per_kWh(-1f);
+                                        newSession.setCost_per_kwh(-1f);
 
                                 Vehicle newVehicle = new Vehicle();
                                 newVehicle.setLicense_plate(nextLine[myMap.get("license_plate")]);
@@ -159,13 +160,13 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
                                 else
                                         newSession.setTotal_cost(-1f);
 
-                                newSession.setStart_date(nextLine[myMap.get("start_date")]);
+                                newSession.setStart_date(java.sql.Date.valueOf(nextLine[myMap.get("start_date")]));
 
-                                newSession.setStart_time(nextLine[myMap.get("start_time")]);
+                                newSession.setStart_time(java.sql.Time.valueOf(nextLine[myMap.get("start_time")]));
 
-                                newSession.setEnd_date(nextLine[myMap.get("end_date")]);
+                                newSession.setEnd_date(java.sql.Date.valueOf(nextLine[myMap.get("end_date")]));
 
-                                newSession.setEnd_time(nextLine[myMap.get("end_time")]);
+                                newSession.setEnd_time(java.sql.Time.valueOf(nextLine[myMap.get("end_time")]));
 
                                 if(nextLine[myMap.get("id")]!=null)
                                         newSession.setEnergy_delivered(Float.valueOf(nextLine[myMap.get("energy_delivered")]));

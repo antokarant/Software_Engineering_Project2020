@@ -41,7 +41,7 @@ class SessionController{
 
                 newSession.setRating(helper_three.getRating());
 
-                newSession.setCost_per_kWh(helper_three.getCost_per_kWh());
+                newSession.setCost_per_kwh(helper_three.getCost_per_kwh());
 
                 Vehicle newVehicle = new Vehicle();
                 newVehicle.setLicense_plate(helper_three.getLicense_plate());
@@ -49,13 +49,13 @@ class SessionController{
 
                 newSession.setTotal_cost(helper_three.getTotal_cost());
 
-                newSession.setStart_date(helper_three.getStart_date());
+                newSession.setStart_date(java.sql.Date.valueOf(helper_three.getStart_date()));
 
-                newSession.setStart_time(helper_three.getStart_time());
+                newSession.setStart_time(java.sql.Time.valueOf(helper_three.getStart_time()));
 
-                newSession.setEnd_date(helper_three.getEnd_date());
+                newSession.setEnd_date(java.sql.Date.valueOf(helper_three.getEnd_date()));
 
-                newSession.setEnd_time(helper_three.getEnd_time());
+                newSession.setEnd_time(java.sql.Time.valueOf(helper_three.getEnd_time()));
 
                 newSession.setEnergy_delivered(helper_three.getEnergy_delivered());
 
@@ -85,7 +85,7 @@ class SessionController{
 
                 private String license_plate;
 
-                private Float cost_per_kWh;
+                private Float cost_per_kwh;
 
                 private Float total_cost;
 
@@ -157,13 +157,13 @@ class SessionController{
         	}
 
 
-        	public Float getCost_per_kWh() {
-        		return cost_per_kWh;
+        	public Float getCost_per_kwh() {
+        		return cost_per_kwh;
         	}
 
 
-        	public void setCost_per_kWh(Float cost_per_kWh) {
-        		this.cost_per_kWh = cost_per_kWh;
+        	public void setCost_per_kwh(Float cost_per_kwh) {
+        		this.cost_per_kwh = cost_per_kwh;
         	}
 
 
