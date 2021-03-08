@@ -107,7 +107,7 @@ with open("randomchargers.json", 'w') as c:
 
 ## Sessions
 
-sessionKeys = ["id", "rating", "cost_per_kWh", "total_cost", "payment_method", "start_date", "start_time", "end_date", "end_time", "energy_delivered", "protocol", "price_policy", "charger_id", "charger_station_id", "license_plate"]
+sessionKeys = ["id", "rating", "cost_per_kwh", "total_cost", "payment_method", "start_date", "start_time", "end_date", "end_time", "energy_delivered", "protocol", "price_policy", "charger_id", "charger_station_id", "license_plate"]
 platesList = []
 with open("randomvehicles.json", 'r') as f:
     for line in f:
