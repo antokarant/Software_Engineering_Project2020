@@ -41,7 +41,7 @@ with open("randomowners.json", 'w') as f:
         f.write('\n')
 
 ## Stations
-stationKeys = ["id", "location", "working_hours", "phone", "average_rating", "operator", "operational_chargers", "cars_waiting", "average_charging_time", "wait_time_estimation", "energy_provider"]
+stationKeys = ["id", "location", "working_hours", "phone", "average_rating", "operator", "operational_chargers", "cars_waiting", "average_charging_time", "energy_provider"]
 providerList = ["DEDDIE", "ELPEDISON", "WATT&VOLT", "PROTERGEIA", "NRG"]
 
 with open("randomstations.json", 'w') as f:
@@ -54,10 +54,9 @@ with open("randomstations.json", 'w') as f:
         operational_chargers = 0 # trigger
         cars_waiting = random.randint(0, 10)
         average_charging_time = random.randint(30, 40) # minutes
-        wait_time_estimation = int(cars_waiting * average_charging_time / operational_chargers) # trigger
         provider = random.choice(providerList)
         
-        l = [i + 1, location, working_hours, phone, average_rating, operator, operational_chargers, cars_waiting, average_charging_time, wait_time_estimation, provider]
+        l = [i + 1, location, working_hours, phone, average_rating, operator, operational_chargers, cars_waiting, average_charging_time, provider]
         json.dump(dict(zip(stationKeys, l)), f)
         f.write('\n')
         
