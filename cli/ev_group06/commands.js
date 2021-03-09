@@ -69,9 +69,9 @@ program
 program
         .command('login')
         .requiredOption("--username <username>", "enter username")
-        .requiredOption("--password <password>", "enter password")
+        .requiredOption("--passw <password>", "enter password")
         .action((options) => {
-                login(options.username, options.password);
+                login(options.username, options.passw);
         });
 
 program
