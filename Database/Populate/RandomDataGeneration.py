@@ -51,7 +51,7 @@ with open("randomstations.json", 'w') as f:
         phone = str(random.randint(2100000000, 2109999999))
         average_rating = 0 # trigger
         operator = fake.name()
-        operational_chargers = 20 # trigger
+        operational_chargers = 0 # trigger
         cars_waiting = random.randint(0, 10)
         average_charging_time = random.randint(30, 40) # minutes
         wait_time_estimation = int(cars_waiting * average_charging_time / operational_chargers) # trigger
