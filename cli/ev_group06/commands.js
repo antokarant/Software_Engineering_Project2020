@@ -23,7 +23,7 @@ program
         .description('CLI')
 
 program
-        .command('sessionsPerStation')
+        .command('SessionsPerStation')
         .alias('Station')
         .requiredOption("--station <station>", "choose station")
         .requiredOption("--datefrom <datefrom>", "choose datefrom")
@@ -36,7 +36,7 @@ program
         });
 
 program
-        .command('sessionsPerPoint')
+        .command('SessionsPerPoint')
         .alias('Point')
         .requiredOption("--station <station>", "choose station")
         .requiredOption("--point <point>", "choose point")
@@ -47,7 +47,7 @@ program
         });
 
 program
-        .command('sessionsPerEV')
+        .command('SessionsPerEV')
         .alias('EV')
         .requiredOption("--ev <ev>", "choose vehicle")
         .requiredOption("--datefrom <datefrom>", "choose datefrom")
@@ -57,7 +57,7 @@ program
         });
 
 program
-        .command('sessionsPerProvider')
+        .command('SessionsPerProvider')
         .alias('Provider')
         .requiredOption("--provider <provider>", "choose provider")
         .requiredOption("--datefrom <datefrom>", "choose datefrom")
@@ -93,7 +93,7 @@ program
         });
 
 program
-        .command('admin')
+        .command('Admin')
         .option("--usermod", "create user or change password")
         .option("--sessionsupd", "upload sessions")
         .option("--username <username>", "give username")
