@@ -13,6 +13,8 @@ var request = require('http').request,
 const axios = require('axios');
 fs = require('fs');
 var FormData = require('form-data');
+var querystring = require('querystring');
+
 
 
 //SessionsPerStation
@@ -26,7 +28,7 @@ const sessionsPerStation = (station, datefrom, dateto) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        Authorization: `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -67,7 +69,7 @@ const sessionsPerPoint = (station, point, datefrom, dateto) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        Authorization: `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -106,7 +108,7 @@ const sessionsPerEV = (ev, datefrom, dateto) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        Authorization: `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -147,7 +149,7 @@ const sessionsPerProvider = (provider, datefrom, dateto) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        Authorization: `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -175,11 +177,17 @@ const sessionsPerProvider = (provider, datefrom, dateto) => {
 }
 const login = (username, password) => {
         let url = `https://localhost:8765/evcharge/api/login`;
-        axios.post(url, null, {
-                        params: {
+        axios.post(url, querystring.stringify({
+                        "username": username,
+                        "password": password
+                }), {
+                        headers: {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                        }
+                        /*params: {
                                 "username": username,
                                 "password": password
-                        }
+                        }*/
                 }).then(res => {
                         let obj = res.data;
                         JSON.stringify(obj)
@@ -269,7 +277,7 @@ const usermod = (username, password) => {
                 }
                 axios.post(url, null, {
                                 headers: {
-                                        Authorization: `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
                                 }
                         }).then(res => {
                                 console.log(res.data);
@@ -294,7 +302,7 @@ const users = (username) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        Authorization: `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -323,7 +331,7 @@ const sessionsupd = (source) => {
         form_data.append("file", newFile);
 
         //var imagefile = document.querySelector('#file');
-//formData.append("image", imagefile.files[0]);
+        //formData.append("image", imagefile.files[0]);
 
 
         fs.readFile('./token.token', 'utf8', (err, data) => {
@@ -343,7 +351,7 @@ const sessionsupd = (source) => {
                 axios.request(request_config)*/
                 axios.post(url, form_data, {
                                 headers: {
-                                        Authorization: `Bearer ${data}`,
+                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`,
                                         //"Content-Type": "multipart/form-data"
                                         'Content-Type': `multipart/form-data; boundary=${form_data._boundary}`
                                 }

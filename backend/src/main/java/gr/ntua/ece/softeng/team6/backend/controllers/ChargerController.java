@@ -56,7 +56,7 @@ class ChargerController{
 
                 private Integer charger_type_id;
 
-                private String operational;
+                private Boolean operational;
 
 
         	public Integer getId() {
@@ -89,12 +89,12 @@ class ChargerController{
         	}
 
 
-        	public String getOperational() {
+        	public Boolean getOperational() {
         		return operational;
         	}
 
 
-        	public void setOperational(String operational) {
+        	public void setOperational(Boolean operational) {
         		this.operational = operational;
         	}
 

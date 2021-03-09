@@ -11,7 +11,7 @@ public class Charger implements Serializable{
         private ChargerId charger_id;
 
         @Column(unique = false, nullable = true, length = 32)
-        private String operational;
+        private Boolean operational;
 
         @ManyToOne
         private Charger_type charger_type;
@@ -30,12 +30,12 @@ public class Charger implements Serializable{
 	}
 
 
-	public String getOperational() {
+	public Boolean getOperational() {
 		return operational;
 	}
 
 
-	public void setOperational(String operational) {
+	public void setOperational(Boolean operational) {
 		this.operational = operational;
 	}
 

@@ -43,7 +43,7 @@ public String StartedOn;
 public String FinishedOn;
 public Integer Protocol;
 public Float EnergyDelivered;
-public String PaymentMethod;
+public String Payment;
 public String VehicleType;
 
 
@@ -56,13 +56,15 @@ SessionsPerPoint(){
 SessionsPerPoint(int t){
         NumberOfChargingSessions = t;
 }
-public Integer Point;
 public Integer Station;
-public Integer NumberOfChargingSessions;
+public Integer Point;
+public String PointOperator;
 public String RequestTimestamp;
 public String PeriodFrom;
 public String PeriodTo;
-public String PointOperator;
+public Integer NumberOfChargingSessions;
+
+
 public List<ChargingSessions> ChargingSessionsList;
 
 
@@ -106,7 +108,7 @@ SessionsPerPoint sesperpoint(@PathVariable Integer stationid,@PathVariable Integ
                 chargingsession.FinishedOn = nameonly.get(i).getEnd_date() + " " +nameonly.get(i).getEnd_time();
                 chargingsession.Protocol = nameonly.get(i).getProtocol();
                 chargingsession.EnergyDelivered = nameonly.get(i).getEnergy_delivered();
-                chargingsession.PaymentMethod = nameonly.get(i).getPayment_method();
+                chargingsession.Payment = nameonly.get(i).getPayment_method();
 
                 String license_plate = nameonly.get(i).getVehicle_license_plate();
                 Vehicle vehicle = vehicleRepository.findById(license_plate).get();
@@ -211,6 +213,10 @@ SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable 
                 emptySessionsSummary.EnergyDelivered = 0f;
                 sessionssummarylist.add(emptySessionsSummary);
         }
+
+        Map<Integer, Integer> pointtoindex = new HashMap<Integer, Integer>();
+        Set<Integer> visited = new HashSet<Integer>();
+
         SessionsPerStation sessionsperstation = new SessionsPerStation();
         sessionsperstation.StationID = nameonly.get(0).getCharger_station_id();
         sessionsperstation.PeriodFrom = startdate;
@@ -218,17 +224,27 @@ SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable 
         sessionsperstation.NumberOfChargingSessions = nameonly.size();
         sessionsperstation.Operator = station.getOperator();
         sessionsperstation.RequestTimestamp = new Timestamp(System.currentTimeMillis()) + "";
-        sessionsperstation.NumberOfActivePoints = station.getOperational_chargers();
+        //sessionsperstation.NumberOfActivePoints = station.getOperational_chargers();
 
 
         for(int i=0; i<nameonly.size(); i++) {
+                if(!visited.contains(nameonly.get(i).getCharger_id())){
+                        pointtoindex.put(nameonly.get(i).getCharger_id(),pointtoindex.size());
+                        visited.add(nameonly.get(i).getCharger_id());
+                        sessionssummarylist.get(pointtoindex.get(nameonly.get(i).getCharger_id())).PointID = nameonly.get(i).getCharger_id();
+
+
+                }
+
+
                 totalenergy += nameonly.get(i).getEnergy_delivered();
-                sessionssummarylist.get(nameonly.get(i).getCharger_id()-1).PointSessions += 1;
-                sessionssummarylist.get(nameonly.get(i).getCharger_id()-1).EnergyDelivered += nameonly.get(i).getEnergy_delivered();
+                sessionssummarylist.get(pointtoindex.get(nameonly.get(i).getCharger_id())).PointSessions += 1;
+                sessionssummarylist.get(pointtoindex.get(nameonly.get(i).getCharger_id())).EnergyDelivered += nameonly.get(i).getEnergy_delivered();
 
         }
         sessionsperstation.SessionsSummaryList = sessionssummarylist;
         sessionsperstation.TotalEnergyDelivered = totalenergy;
+        sessionsperstation.NumberOfActivePoints = pointtoindex.size();
 
 
         return sessionsperstation;
@@ -270,7 +286,7 @@ SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable 
    public String FinishedOn;
    public Float EnergyDelivered;
    public Integer PricePolicyRef;
-   public Integer Protocol;
+   //public Integer Protocol;
    public Float CostPerKWh;
    public Float SessionCost;
 
@@ -290,7 +306,7 @@ SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable 
    public String PeriodFrom;
    public String PeriodTo;
    public Float TotalEnergyConsumed;
-   public Integer NumberOfVisitedStations;
+   public Integer NumberOfVisitedPoints;
    public Integer NumberOfVehicleChargingSessions;
 
    public List<VehicleChargingSessions> VehicleChargingSessionsList;
@@ -328,7 +344,8 @@ SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable 
            sessionsperev.PeriodTo = enddate;
            sessionsperev.NumberOfVehicleChargingSessions = nameonly.size();
 
-           Set<Integer> visitedpoints = new HashSet<Integer>();
+           Set<Pair<Integer,Integer>> visitedpoints = new HashSet<Pair<Integer, Integer>>();
+
 
 
 
@@ -336,7 +353,9 @@ SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable 
            List<VehicleChargingSessions> vehiclechargingsessionslist = new ArrayList<VehicleChargingSessions>();
            for(int i=0; i<nameonly.size(); i++) {
 
-                   visitedpoints.add(nameonly.get(i).getCharger_station_id());
+                   Pair<Integer,Integer> pair = new Pair<Integer,Integer>(nameonly.get(i).getCharger_station_id(),nameonly.get(i).getCharger_id());
+                   visitedpoints.add(pair);
+
                    totalenergy += nameonly.get(i).getEnergy_delivered();
 
                    VehicleChargingSessions vehiclechargingsession = new VehicleChargingSessions();
@@ -346,7 +365,7 @@ SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable 
                    vehiclechargingsession.SessionID = nameonly.get(i).getId();
                    vehiclechargingsession.StartedOn = nameonly.get(i).getStart_date() + " " +nameonly.get(i).getStart_time();
                    vehiclechargingsession.FinishedOn = nameonly.get(i).getEnd_date() + " " +nameonly.get(i).getEnd_time();
-                   vehiclechargingsession.Protocol = nameonly.get(i).getProtocol();
+                   //vehiclechargingsession.Protocol = nameonly.get(i).getProtocol();
                    vehiclechargingsession.EnergyDelivered = nameonly.get(i).getEnergy_delivered();
                    vehiclechargingsession.PricePolicyRef = nameonly.get(i).getPrice_policy();
                    vehiclechargingsession.CostPerKWh = nameonly.get(i).getCost_per_kwh();
@@ -363,7 +382,7 @@ SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable 
 
            }
            sessionsperev.TotalEnergyConsumed = totalenergy;
-           sessionsperev.NumberOfVisitedStations = visitedpoints.size();
+           sessionsperev.NumberOfVisitedPoints = visitedpoints.size();
            sessionsperev.VehicleChargingSessionsList = vehiclechargingsessionslist;
 
            return sessionsperev;
@@ -411,7 +430,7 @@ public String StartedOn;
 public String FinishedOn;
 public Float EnergyDelivered;
 public Integer PricePolicyRef;
-public Integer Protocol;
+//public Integer Protocol;
 public Float CostPerKWh;
 public Float TotalCost;
 
@@ -446,7 +465,7 @@ List<SessionsPerProvider> sesperprovider(@PathVariable String providerid,@PathVa
                                 sessionsperprovider.FinishedOn = s.getEnd_date() + " " + s.getEnd_time();
                                 sessionsperprovider.EnergyDelivered = s.getEnergy_delivered();
                                 sessionsperprovider.PricePolicyRef = s.getPrice_policy();
-                                sessionsperprovider.Protocol = s.getProtocol();
+                                //sessionsperprovider.Protocol = s.getProtocol();
                                 sessionsperprovider.CostPerKWh = s.getCost_per_kwh();
                                 sessionsperprovider.TotalCost = s.getTotal_cost();
                                 result.add(sessionsperprovider);
