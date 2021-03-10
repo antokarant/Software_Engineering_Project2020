@@ -14,14 +14,15 @@ const axios = require('axios');
 fs = require('fs');
 var FormData = require('form-data');
 var querystring = require('querystring');
-
+var path = require('app-root-path');
+var tokenPath = path + "/token.token";
 
 
 //SessionsPerStation
 const sessionsPerStation = (station, datefrom, dateto) => {
         let url = `https://localhost:8765/evcharge/api/SessionsPerStation/${station}/${datefrom}/${dateto}`;
 
-        fs.readFile('./token.token', 'utf8', (err, data) => {
+        fs.readFile(tokenPath, 'utf8', (err, data) => {
                 if (err) {
                         console.error(err)
                         return
@@ -62,7 +63,7 @@ const sessionsPerStation = (station, datefrom, dateto) => {
 const sessionsPerPoint = (station, point, datefrom, dateto) => {
         let url = `https://localhost:8765/evcharge/api/SessionsPerPoint/${station}/${point}/${datefrom}/${dateto}`;
 
-        fs.readFile('./token.token', 'utf8', (err, data) => {
+        fs.readFile(tokenPath, 'utf8', (err, data) => {
                 if (err) {
                         console.error(err)
                         return
@@ -101,7 +102,7 @@ const sessionsPerPoint = (station, point, datefrom, dateto) => {
 const sessionsPerEV = (ev, datefrom, dateto) => {
         let url = `https://localhost:8765/evcharge/api/SessionsPerEV/${ev}/${datefrom}/${dateto}`;
 
-        fs.readFile('./token.token', 'utf8', (err, data) => {
+        fs.readFile(tokenPath, 'utf8', (err, data) => {
                 if (err) {
                         console.error(err)
                         return
@@ -142,7 +143,7 @@ const sessionsPerProvider = (provider, datefrom, dateto) => {
 
         let url = `https://localhost:8765/evcharge/api/SessionsPerProvider/${provider}/${datefrom}/${dateto}`;
 
-        fs.readFile('./token.token', 'utf8', (err, data) => {
+        fs.readFile(tokenPath, 'utf8', (err, data) => {
                 if (err) {
                         console.error(err)
                         return
@@ -191,7 +192,7 @@ const login = (username, password) => {
                 }).then(res => {
                         let obj = res.data;
                         JSON.stringify(obj)
-                        fs.writeFile("./token.token", obj.token, function(err) {
+                        fs.writeFile(tokenPath, obj.token, function(err) {
                                 if (err) return console.log(err);
                                 console.log(res.data);
                         });
@@ -211,7 +212,7 @@ const login = (username, password) => {
 
 }
 const logout = () => {
-        const path = './token.token'
+        const path = tokenPath
 
         fs.unlink(path, (err) => {
                 if (err) {
@@ -270,7 +271,7 @@ const usermod = (username, password) => {
 
         let url = `https://localhost:8765/evcharge/api/admin/usermod/${username}/${password}`;
 
-        fs.readFile('./token.token', 'utf8', (err, data) => {
+        fs.readFile(tokenPath, 'utf8', (err, data) => {
                 if (err) {
                         console.error(err)
                         return
@@ -295,7 +296,7 @@ const users = (username) => {
 
         let url = `https://localhost:8765/evcharge/api/admin/users/${username}`;
 
-        fs.readFile('./token.token', 'utf8', (err, data) => {
+        fs.readFile(tokenPath, 'utf8', (err, data) => {
                 if (err) {
                         console.error(err)
                         return
@@ -334,7 +335,7 @@ const sessionsupd = (source) => {
         //formData.append("image", imagefile.files[0]);
 
 
-        fs.readFile('./token.token', 'utf8', (err, data) => {
+        fs.readFile(tokenPath, 'utf8', (err, data) => {
                 if (err) {
                         console.error(err)
                         return
