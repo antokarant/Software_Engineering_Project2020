@@ -15,7 +15,7 @@ fs = require('fs');
 var FormData = require('form-data');
 var querystring = require('querystring');
 var path = require('app-root-path');
-var tokenPath = path + "/token.token";
+var tokenPath = path + "/softeng20bAPI.token";
 
 
 //SessionsPerStation

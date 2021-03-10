@@ -15,7 +15,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import gr.ntua.ece.softeng.team6.backend.models.UserRepository;
 import gr.ntua.ece.softeng.team6.backend.models.User;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class LoginController {
 
@@ -25,7 +27,6 @@ public class LoginController {
                 this.repository = repository;
 
         }
-
 	@PostMapping("/login")
 	public String login(@RequestParam("username") String username, @RequestParam("password") String pwd) {
 		try{

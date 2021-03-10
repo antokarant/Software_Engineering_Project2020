@@ -6,6 +6,7 @@ import gr.ntua.ece.softeng.team6.backend.models.*;
 
 import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 class HelpingController{
 
@@ -16,7 +17,7 @@ class HelpingController{
                 this.repository = repository;
                 this.repositorys = repositorys;
         }
-
+        
         @GetMapping("/admin/healthcheck")
         String healthcheck(){
                 String result;
@@ -30,6 +31,7 @@ class HelpingController{
                 }
                 return result;
         }
+
         @PostMapping("/admin/resetsessions")
         String resetsessions(){
                 String result;

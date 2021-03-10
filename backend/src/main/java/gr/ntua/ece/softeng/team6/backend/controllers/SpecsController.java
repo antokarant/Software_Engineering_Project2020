@@ -14,7 +14,7 @@ import java.text.ParseException;
 
 import java.sql.Timestamp;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 class SpecsController {
 

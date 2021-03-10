@@ -31,6 +31,7 @@ import gr.ntua.ece.softeng.team6.backend.models.*;
 
 import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 class AdminController {
 
@@ -61,6 +62,7 @@ void usermod(@PathVariable String username, @PathVariable String password){
         }
         return;
 }
+
 @GetMapping("/admin/users/{username}")
 User users(@PathVariable String username){
         return repository.findById(username)
