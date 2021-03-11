@@ -140,16 +140,17 @@ LoginProcess() {
                         console.log("we are here")
                         let obj = res.data;
                         JSON.stringify(obj)
-                        this.setState({token: obj.token,
-                                        loggedin: true})
+                        this.setState({token: obj.token})
                         console.log(this.state.token)
                         document.cookie = obj.token;
-
+                        if(obj.token)
+                                this.setState({loggedin: true,})
 
                 })
                 .catch(error => {
-                        console.error("error")
-                });
+                        this.setState({token: null,
+                                        loggedin: false})
+                                   });
     }
     else{
             console.log("specify everything")
@@ -157,6 +158,7 @@ LoginProcess() {
   }
    LogoutProcess() {
 
+           document.cookie = null;
 
                 this.setState({token: undefined,
                             loggedin: false})
