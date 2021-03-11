@@ -1,0 +1,15 @@
+/* form area */
+.search-button
+{
+    font-size: 1.1em;
+}
+
+.session-form-area
+{
+    margin-left: 20px;
+}
+
+.station-field, .date-field, .point-field, .provider-field
+{
+    margin-left: 5px;
+}
