@@ -190,361 +190,182 @@ String reportStation(@PathVariable Integer station, @PathVariable String datefro
 
 }
 
-}
-
-/*@GetMapping("/SessionsPerPoint/{stationID}/{pointID}/{yyyymmdd_from}/{yyyymmdd_to}")
-   List<Session> specsfirst(@PathVariable Integer stationID, @PathVariable Integer pointID, @PathVariable String yyyymmdd_from, @PathVariable String yyyymmdd_to){
-        List<Session> result = new LinkedList<Session>();
-                try{
-                        DateFormat df = new SimpleDateFormat("yyyyMMdd");
-                        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-                        Date start = df.parse(yyyymmdd_from);
-                        Date end = df.parse(yyyymmdd_to);
-
-                        List<Session> list = repository.findAll();
-                        for(Session s : list){
-                                if(s.getStart_date() == null || s.getStart_date().isEmpty())
-                                        continue;
-                                Date current = df2.parse(s.getStart_date());
-                                if(current.after(start) && current.before(end)  && s.getSession_id().getCharger().getCharger_id().getStation().getId() == stationID && s.getSession_id().getCharger().getCharger_id().getId() == pointID)
-                                        result.add(s);
-                        }
-                }catch(ParseException e){
-                        e.printStackTrace();
-                }
-
-        return result;
-
-   }*/
 
 
-/*private class SessionsSummary {
-SessionsSummary(){
-}
-public Integer PointID;
-public Integer PointSessions;
-public Float EnergyDelivered;
+@PostMapping("/ChargeEV")
+Session chargeEV(@RequestBody ChargingHelp chargingHelp){
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
+        SimpleDateFormat formatter3 = new SimpleDateFormat("HH:mm:ss");
 
-}
+        Integer count = repository.stationPointSessionCount(chargingHelp.charger_station_id,chargingHelp.charger_id) + 1;
 
-private class SessionsPerStation {
+        Session newSession = new Session();
+        SessionId session_id = new SessionId();
 
-SessionsPerStation(){
-}
-SessionsPerStation(int t){
-        NumberOfChargingSessions = t;
-}
-public Integer StationID;
-public String Operator;
-public String RequestTimestamp;
-public String PeriodFrom;
-public String PeriodTo;
-public Float TotalEnergyDelivered;
-public Integer NumberOfChargingSessions;
-public Integer NumberOfActivePoints;
+        session_id.setId(count);
 
+        Charger charger = new Charger();
+        ChargerId charger_id = new ChargerId();
+        charger_id.setId(chargingHelp.charger_id);
+        Station station = new Station();
+        station.setId(chargingHelp.charger_station_id);
+        charger_id.setStation(station);
+        charger.setCharger_id(charger_id);
 
-public List<SessionsSummary> SessionsSummaryList;
+        session_id.setCharger(charger);
 
+        newSession.setSession_id(session_id);
 
-}
+        newSession.setRating(chargingHelp.rating);
 
-@GetMapping("/SessionsPerStation/{stationid}/{yyyymmdd_from}/{yyyymmdd_to}")
-SessionsPerStation sesperstation(@PathVariable Integer stationid, @PathVariable String yyyymmdd_from,@PathVariable String yyyymmdd_to){
+        newSession.setCost_per_kwh(chargingHelp.cost_per_kwh);
 
-        String startdate = yyyymmdd_from;
-        String enddate = yyyymmdd_to;
+        Vehicle newVehicle = new Vehicle();
+        newVehicle.setLicense_plate(chargingHelp.license_plate);
+        newSession.setVehicle(newVehicle);
 
-        List<NameOnly> nameonly = repository.perStation(stationid, startdate, enddate);
-        if(nameonly.size()==0) {
-                return new SessionsPerStation(0);
-        }
+        newSession.setTotal_cost(chargingHelp.total_cost);
 
-        //List<Integer> allpoints = new ArrayList<Integer>();
+        newSession.setStart_date(java.sql.Date.valueOf(formatter.format(LocalDate.now())));
 
-        Float totalenergy = 0f;
+        newSession.setStart_time(java.sql.Time.valueOf(formatter2.format(LocalTime.now())));
 
-        //<Integer> diffpoints = new HashSet<Integer>(allpoints);
-        int differentPoints = chargerRepository.countofchargers(stationid);
+        newSession.setEnd_date(java.sql.Date.valueOf(formatter.format(LocalDate.now())));
 
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(java.sql.Time.valueOf(formatter2.format(LocalTime.now())));
+        cal.add(Calendar.MINUTE, 30);
 
-        Station station = stationRepository.findById(stationid).get();
+        newSession.setEnd_time(java.sql.Time.valueOf(formatter3.format(cal.getTime())));
 
+        newSession.setEnergy_delivered(chargingHelp.energy_delivered);
 
-        List<SessionsSummary> sessionssummarylist = new ArrayList<SessionsSummary>();
-        for (int i = 0; i < differentPoints; i++) {
-                SessionsSummary emptySessionsSummary = new SessionsSummary();
-                emptySessionsSummary.PointID = i+1;
-                emptySessionsSummary.PointSessions = 0;
-                emptySessionsSummary.EnergyDelivered = 0f;
-                sessionssummarylist.add(emptySessionsSummary);
-        }
+        newSession.setProtocol(chargingHelp.protocol);
 
-        Map<Integer, Integer> pointtoindex = new HashMap<Integer, Integer>();
-        Set<Integer> visited = new HashSet<Integer>();
+        newSession.setPayment_method(chargingHelp.payment_method);
 
-        SessionsPerStation sessionsperstation = new SessionsPerStation();
-        sessionsperstation.StationID = nameonly.get(0).getCharger_station_id();
-        sessionsperstation.PeriodFrom = startdate;
-        sessionsperstation.PeriodTo = enddate;
-        sessionsperstation.NumberOfChargingSessions = nameonly.size();
-        sessionsperstation.Operator = station.getOperator();
-        sessionsperstation.RequestTimestamp = new Timestamp(System.currentTimeMillis()) + "";
-        //sessionsperstation.NumberOfActivePoints = station.getOperational_chargers();
+        newSession.setPrice_policy(chargingHelp.price_policy);
 
+        return  repository.save(newSession);
 
-        for(int i=0; i<nameonly.size(); i++) {
-                if(!visited.contains(nameonly.get(i).getCharger_id())){
-                        pointtoindex.put(nameonly.get(i).getCharger_id(),pointtoindex.size());
-                        visited.add(nameonly.get(i).getCharger_id());
-                        sessionssummarylist.get(pointtoindex.get(nameonly.get(i).getCharger_id())).PointID = nameonly.get(i).getCharger_id();
-
-
-                }
-
-
-                totalenergy += nameonly.get(i).getEnergy_delivered();
-                sessionssummarylist.get(pointtoindex.get(nameonly.get(i).getCharger_id())).PointSessions += 1;
-                sessionssummarylist.get(pointtoindex.get(nameonly.get(i).getCharger_id())).EnergyDelivered += nameonly.get(i).getEnergy_delivered();
-
-        }
-        sessionsperstation.SessionsSummaryList = sessionssummarylist;
-        sessionsperstation.TotalEnergyDelivered = totalenergy;
-        sessionsperstation.NumberOfActivePoints = pointtoindex.size();
-
-
-        return sessionsperstation;
+        //return "Session complete thank you";
 
 }
 
-/*@GetMapping("/SessionsPerStation/{stationID}/{yyyymmdd_from}/{yyyymmdd_to}")
-   List<Session> specsecond(@PathVariable Integer stationID,@PathVariable String yyyymmdd_from, @PathVariable String yyyymmdd_to){
-        List<Session> result = new LinkedList<Session>();
-                try{
-                        DateFormat df = new SimpleDateFormat("yyyyMMdd");
-                        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-                        Date start = df.parse(yyyymmdd_from);
-                        Date end = df.parse(yyyymmdd_to);
-
-                        List<Session> list = repository.findAll();
-                        for(Session s : list){
-                                if(s.getStart_date() == null || s.getStart_date().isEmpty())
-                                        continue;
-                                Date current = df2.parse(s.getStart_date());
-                                if(current.after(start) && current.before(end)  && s.getSession_id().getCharger().getCharger_id().getStation().getId() == stationID)
-                                        result.add(s);
-                        }
-                }catch(ParseException e){
-                        e.printStackTrace();
-                }
-
-        return result;
-
-   }*/
-/*
-   private class VehicleChargingSessions {
-   VehicleChargingSessions(){
-   }
-   public Integer SessionIndex;
-   public Integer SessionID;
-   public String EnergyProvider;
-   public String StartedOn;
-   public String FinishedOn;
-   public Float EnergyDelivered;
-   public Integer PricePolicyRef;
-   //public Integer Protocol;
-   public Float CostPerKWh;
-   public Float SessionCost;
-
-
-
-   }
-
-   private class SessionsPerEV {
-
-   SessionsPerEV(){
-   }
-   SessionsPerEV(int t){
-           NumberOfVehicleChargingSessions = t;
-   }
-   public String VehicleID;
-   public String RequestTimestamp;
-   public String PeriodFrom;
-   public String PeriodTo;
-   public Float TotalEnergyConsumed;
-   public Integer NumberOfVisitedPoints;
-   public Integer NumberOfVehicleChargingSessions;
-
-   public List<VehicleChargingSessions> VehicleChargingSessionsList;
-
-
-   }
-
-   @GetMapping("/SessionsPerEV/{vehicleid}/{yyyymmdd_from}/{yyyymmdd_to}")
-   SessionsPerEV sesperev(@PathVariable String vehicleid, @PathVariable String yyyymmdd_from,@PathVariable String yyyymmdd_to){
-           /*String startdate = "0000-00-00";
-              String enddate = "0000-00-00";
-              try{
-                   DateFormat df = new SimpleDateFormat("yyyyMMdd");
-                   Date start = df.parse(yyyymmdd_from);
-                   Date end = df.parse(yyyymmdd_to);
-                   startdate = df.format(start);
-                   enddate = df.format(end);
-              }catch(ParseException e) {
-                   e.printStackTrace();
-              }*/
-        /*   String startdate = yyyymmdd_from;
-           String enddate = yyyymmdd_to;
-
-           Float totalenergy = 0f;
-
-           List<NameOnly> nameonly = repository.perEV(vehicleid, startdate, enddate);
-           if(nameonly.size()==0) {
-                   return new SessionsPerEV(0);
-           }
-           SessionsPerEV sessionsperev = new SessionsPerEV();
-
-           sessionsperev.VehicleID = nameonly.get(0).getVehicle_license_plate();
-           sessionsperev.RequestTimestamp = new Timestamp(System.currentTimeMillis()) + "";
-           sessionsperev.PeriodFrom = startdate;
-           sessionsperev.PeriodTo = enddate;
-           sessionsperev.NumberOfVehicleChargingSessions = nameonly.size();
-
-           Set<Pair<Integer,Integer>> visitedpoints = new HashSet<Pair<Integer, Integer>>();
-
-
-
-
-
-           List<VehicleChargingSessions> vehiclechargingsessionslist = new ArrayList<VehicleChargingSessions>();
-           for(int i=0; i<nameonly.size(); i++) {
-
-                   Pair<Integer,Integer> pair = new Pair<Integer,Integer>(nameonly.get(i).getCharger_station_id(),nameonly.get(i).getCharger_id());
-                   visitedpoints.add(pair);
-
-                   totalenergy += nameonly.get(i).getEnergy_delivered();
-
-                   VehicleChargingSessions vehiclechargingsession = new VehicleChargingSessions();
-
-
-                   vehiclechargingsession.SessionIndex = i;
-                   vehiclechargingsession.SessionID = nameonly.get(i).getId();
-                   vehiclechargingsession.StartedOn = nameonly.get(i).getStart_date() + " " +nameonly.get(i).getStart_time();
-                   vehiclechargingsession.FinishedOn = nameonly.get(i).getEnd_date() + " " +nameonly.get(i).getEnd_time();
-                   //vehiclechargingsession.Protocol = nameonly.get(i).getProtocol();
-                   vehiclechargingsession.EnergyDelivered = nameonly.get(i).getEnergy_delivered();
-                   vehiclechargingsession.PricePolicyRef = nameonly.get(i).getPrice_policy();
-                   vehiclechargingsession.CostPerKWh = nameonly.get(i).getCost_per_kwh();
-                   vehiclechargingsession.SessionCost = nameonly.get(i).getTotal_cost();
-
-
-                   Station station = stationRepository.findById(nameonly.get(i).getCharger_station_id()).get();
-                   vehiclechargingsession.EnergyProvider = station.getEnergy_provider();
-
-
-
-
-                   vehiclechargingsessionslist.add(vehiclechargingsession);
-
-           }
-           sessionsperev.TotalEnergyConsumed = totalenergy;
-           sessionsperev.NumberOfVisitedPoints = visitedpoints.size();
-           sessionsperev.VehicleChargingSessionsList = vehiclechargingsessionslist;
-
-           return sessionsperev;
-
-   }
-
-
-/*@GetMapping("/SessionsPerEV/{vehicleid}/{yyyymmdd_from}/{yyyymmdd_to}")
-List<Session> specsthird(@PathVariable String vehicleID,@PathVariable String yyyymmdd_from, @PathVariable String yyyymmdd_to){
-        List<Session> result = new LinkedList<Session>();
-        /*  try{
-                DateFormat df = new SimpleDateFormat("yyyyMMdd");
-                DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-                Date start = df.parse(yyyymmdd_from);
-                Date end = df.parse(yyyymmdd_to);
-
-                List<Session> list = repository.findAll();
-                for(Session s : list){
-                        if(s.getStart_date() == null || s.getStart_date().isEmpty())
-                                continue;
-                        Date current = df2.parse(s.getStart_date());
-                        if(s.getVehicle().getLicense_plate() == null || s.getVehicle().getLicense_plate().isEmpty())
-                                continue;
-                        if(current.after(start) && current.before(end)  && s.getVehicle().getLicense_plate().equals(vehicleID))
-                                result.add(s);
-                }
-           }catch(ParseException e){
-                e.printStackTrace();
-           }
-
-        return result;
-
-}*/
-
-/*private class SessionsPerProvider {
-
-SessionsPerProvider(){
 }
+class ChargingHelp{
 
-public String ProviderName;
-public Integer StationID;
-public Integer SessionID;
-public String VehicleID;
-public String StartedOn;
-public String FinishedOn;
-public Float EnergyDelivered;
-public Integer PricePolicyRef;
-//public Integer Protocol;
-public Float CostPerKWh;
-public Float TotalCost;
+public Float rating;
+public Float cost_per_kwh;
+public Float total_cost;
+public String payment_method;
+public Float energy_delivered;
+public Integer protocol;
+public Integer price_policy;
+public Integer charger_id;
+public Integer charger_station_id;
+public String license_plate;
 
 
-}
-
-@GetMapping("/SessionsPerProvider/{providerid}/{yyyymmdd_from}/{yyyymmdd_to}")
-List<SessionsPerProvider> sesperprovider(@PathVariable String providerid,@PathVariable String yyyymmdd_from, @PathVariable String yyyymmdd_to){
-
-        List<SessionsPerProvider> result = new LinkedList<SessionsPerProvider>();
-
-        try{
-                DateFormat df = new SimpleDateFormat("yyyyMMdd");
-                DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-                Date start = df.parse(yyyymmdd_from);
-                Date end = df.parse(yyyymmdd_to);
-
-                List<Session> list = repository.findAll();
-                for(Session s : list) {
-                        if(s.getStart_date() == null || s.getStart_date() == null)
-                                continue;
-                        Date current = s.getStart_date();
-                        if(s.getSession_id().getCharger().getCharger_id().getStation().getEnergy_provider() == null || s.getSession_id().getCharger().getCharger_id().getStation().getEnergy_provider().isEmpty())
-                                continue;
-                        if(current.after(start) && current.before(end)  && s.getSession_id().getCharger().getCharger_id().getStation().getEnergy_provider().equals(providerid)){
-                                SessionsPerProvider sessionsperprovider = new SessionsPerProvider();
-                                sessionsperprovider.ProviderName = providerid;
-                                sessionsperprovider.StationID = s.getSession_id().getCharger().getCharger_id().getStation().getId();
-                                sessionsperprovider.SessionID = s.getSession_id().getId();
-                                sessionsperprovider.VehicleID = s.getVehicle().getLicense_plate();
-                                sessionsperprovider.StartedOn = s.getStart_date() + " " + s.getStart_time();
-                                sessionsperprovider.FinishedOn = s.getEnd_date() + " " + s.getEnd_time();
-                                sessionsperprovider.EnergyDelivered = s.getEnergy_delivered();
-                                sessionsperprovider.PricePolicyRef = s.getPrice_policy();
-                                //sessionsperprovider.Protocol = s.getProtocol();
-                                sessionsperprovider.CostPerKWh = s.getCost_per_kwh();
-                                sessionsperprovider.TotalCost = s.getTotal_cost();
-                                result.add(sessionsperprovider);
-                        }
-                }
-        }catch(ParseException e) {
-                e.printStackTrace();
-        }
-
-        return result;
-
+public Float getRating() {
+        return rating;
 }
 
 
-}*/
+public void setRating(Float rating) {
+        this.rating = rating;
+}
+
+
+public Float getCost_per_kwh() {
+        return cost_per_kwh;
+}
+
+
+public void setCost_per_kwh(Float cost_per_kwh) {
+        this.cost_per_kwh = cost_per_kwh;
+}
+
+
+public Float getTotal_cost() {
+        return total_cost;
+}
+
+
+public void setTotal_cost(Float total_cost) {
+        this.total_cost = total_cost;
+}
+
+
+public String getPayment_method() {
+        return payment_method;
+}
+
+
+public void setPayment_method(String payment_method) {
+        this.payment_method = payment_method;
+}
+
+
+public Float getEnergy_delivered() {
+        return energy_delivered;
+}
+
+
+public void setEnergy_delivered(Float energy_delivered) {
+        this.energy_delivered = energy_delivered;
+}
+
+
+public Integer getProtocol() {
+        return protocol;
+}
+
+
+public void setProtocol(Integer protocol) {
+        this.protocol = protocol;
+}
+
+
+public Integer getPrice_policy() {
+        return price_policy;
+}
+
+
+public void setPrice_policy(Integer price_policy) {
+        this.price_policy = price_policy;
+}
+
+
+public Integer getCharger_id() {
+        return charger_id;
+}
+
+
+public void setCharger_id(Integer charger_id) {
+        this.charger_id = charger_id;
+}
+
+
+public Integer getCharger_station_id() {
+        return charger_station_id;
+}
+
+
+public void setCharger_station_id(Integer charger_station_id) {
+        this.charger_station_id = charger_station_id;
+}
+
+
+public String getLicense_plate() {
+        return license_plate;
+}
+
+
+public void setLicense_plate(String license_plate) {
+        this.license_plate = license_plate;
+}
+
+}
