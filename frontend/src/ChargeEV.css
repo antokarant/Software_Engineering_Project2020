@@ -1,0 +1,31 @@
+.cost-button
+{
+    font-size: 1.1em;
+    margin-right: 5px;
+}
+
+.charge-form-area, .result-area
+{
+    margin-left: 20px;
+}
+
+.station-field, .date-field, .charger-field, .protocol-field, .policy-field
+{
+    margin-left: 5px;
+}
+
+.transaction-area
+{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.method-field
+{
+    margin-right: 10px;
+}
+
+.methodButtons
+{
+    margin-bottom: 5px;
+}
