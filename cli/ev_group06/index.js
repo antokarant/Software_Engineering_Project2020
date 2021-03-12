@@ -29,7 +29,7 @@ const sessionsPerStation = (station, datefrom, dateto) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -70,7 +70,7 @@ const sessionsPerPoint = (station, point, datefrom, dateto) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -109,7 +109,7 @@ const sessionsPerEV = (ev, datefrom, dateto) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -150,7 +150,7 @@ const sessionsPerProvider = (provider, datefrom, dateto) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -278,7 +278,7 @@ const usermod = (username, password) => {
                 }
                 axios.post(url, null, {
                                 headers: {
-                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `${data}`
                                 }
                         }).then(res => {
                                 console.log(res.data);
@@ -303,7 +303,7 @@ const users = (username) => {
                 }
                 axios.get(url, {
                                 headers: {
-                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`
+                                        "X-OBSERVATORY-AUTH": `${data}`
                                 }
                         }).then(res => {
                                 let obj = res.data;
@@ -344,7 +344,7 @@ const sessionsupd = (source) => {
                         method: "post",
                         url: url,
                         headers: {
-                                "Authorization": `Bearer ${data}`,
+                                "Authorization": `${data}`,
                                 "Content-Type": "multipart/form-data"
                         },
                         data: form_data
@@ -352,7 +352,7 @@ const sessionsupd = (source) => {
                 axios.request(request_config)*/
                 axios.post(url, form_data, {
                                 headers: {
-                                        "X-OBSERVATORY-AUTH": `Bearer ${data}`,
+                                        "X-OBSERVATORY-AUTH": `${data}`,
                                         //"Content-Type": "multipart/form-data"
                                         'Content-Type': `multipart/form-data; boundary=${form_data._boundary}`
                                 }

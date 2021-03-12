@@ -1,5 +1,7 @@
 import React from 'react';
 import './SelectStation.css';
+import axios from 'axios';
+import querystring from 'querystring';
 import './Tables.css';
 
 class SelectStation extends React.Component
@@ -27,10 +29,42 @@ class SelectStation extends React.Component
     {
         e.preventDefault();
         this.setState({ error: null });
-        if (this.state.area)
-        {
-            let requestObject = { area: this.state.area };
+
             // connect with backend function
+            if(this.state.area)
+             {
+
+                 // connect with backend function - send request
+                 let url = `https://localhost:8765/evcharge/api/StationsNear/${this.state.area}`;
+
+
+                     axios.get(url, {
+                                     headers: {
+                                             "X-OBSERVATORY-AUTH": `${document.cookie}`
+                                     }
+                             }).then(res => {
+                                     let obj = res.data;
+                                     JSON.stringify(obj)
+                                     if(this.state.sortBy == "rating") obj = obj.sort((a, b) => b.average_rating - a.average_rating)
+                                     else if(this.state.sortBy == "wait-time") obj= obj.sort((a, b) => a.wait_time_estimation - b.wait_time_estimation)
+                                     this.setState({stationList: obj})
+                                     if(this.state.stationList){
+                                             this.setState({responseReceived : true});
+                                     }
+
+                             })
+                             .catch(error => {
+                                     console.error(error)
+                             });
+
+
+
+             }
+             else
+             {
+                 this.setState({ error: "Information required" });
+             }
+
             let val =  [
                 {"station_id": 1, "location": "52731 Perez Streets Suite 180\nWaynestad, KY 42374", "working_hours": "06:00 - 24:00", "phone": "2104715864", "average_rating": 0, "operator": "Linda Todd", "operational_chargers": 20, "cars_waiting": 2, "average_charging_time": 32, "wait_time_estimation": 3},
                 {"station_id": 2, "location": "USNS Campos\nFPO AA 72176", "working_hours": "06:00 - 24:00", "phone": "2103362328", "average_rating": 1, "operator": "Christopher Cunningham", "operational_chargers": 20, "cars_waiting": 6, "average_charging_time": 33, "wait_time_estimation": 9},
@@ -40,16 +74,7 @@ class SelectStation extends React.Component
             ];
 
             // pretend data came from backend
-            if(this.state.sortBy == "rating") val = val.sort((a, b) => b.average_rating - a.average_rating)
-            else if(this.state.sortBy == "wait-time") val.sort((a, b) => a.wait_time_estimation - b.wait_time_estimation)
 
-            this.setState({stationList : val});
-            this.setState({responseReceived : true});
-        }
-        else
-        {
-            this.setState({ error: "Information required" });
-        }
     }
 
     displayResults()

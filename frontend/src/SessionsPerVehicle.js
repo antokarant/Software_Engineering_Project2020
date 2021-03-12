@@ -45,7 +45,7 @@ class SessionsPerVehicle extends React.Component
 
                 axios.get(url, {
                                 headers: {
-                                        "X-OBSERVATORY-AUTH": `Bearer ${document.cookie}`
+                                        "X-OBSERVATORY-AUTH": `${document.cookie}`
                                 }
                         }).then(res => {
                                 let obj = res.data;

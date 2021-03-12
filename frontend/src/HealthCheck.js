@@ -26,7 +26,7 @@ class HealthCheck extends React.Component {
 
                       axios.get(url, {
                                       headers: {
-                                              "X-OBSERVATORY-AUTH": `Bearer ${this.state.token}`
+                                              "X-OBSERVATORY-AUTH": `${this.state.token}`
                                       }
                               }).then(res => {
                                       let obj = res.data;
