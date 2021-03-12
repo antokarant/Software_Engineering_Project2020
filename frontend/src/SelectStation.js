@@ -7,7 +7,7 @@ class SelectStation extends React.Component
     constructor(props)
     {
         super(props);
-        this.state = { area: null, responseReceived: false, stationList: [], sortBy: null, error: null};
+        this.state = { area: null, responseReceived: false, stationList: null, sortBy: null, error: null};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,19 +31,19 @@ class SelectStation extends React.Component
         {
             let requestObject = { area: this.state.area };
             // connect with backend function
-            this.setState({stationList : [
+            let val =  [
                 {"station_id": 1, "location": "52731 Perez Streets Suite 180\nWaynestad, KY 42374", "working_hours": "06:00 - 24:00", "phone": "2104715864", "average_rating": 0, "operator": "Linda Todd", "operational_chargers": 20, "cars_waiting": 2, "average_charging_time": 32, "wait_time_estimation": 3},
                 {"station_id": 2, "location": "USNS Campos\nFPO AA 72176", "working_hours": "06:00 - 24:00", "phone": "2103362328", "average_rating": 1, "operator": "Christopher Cunningham", "operational_chargers": 20, "cars_waiting": 6, "average_charging_time": 33, "wait_time_estimation": 9},
                 {"station_id": 3, "location": "86090 Conway Mill\nEast Darrellville, AK 76689", "working_hours": "06:00 - 24:00", "phone": "2100989703", "average_rating": 0, "operator": "Brandon Thompson", "operational_chargers": 20, "cars_waiting": 5, "average_charging_time": 38, "wait_time_estimation": 9},
                 {"station_id": 4, "location": "41930 Forbes Camp Suite 741\nScottshire, CA 93567", "working_hours": "06:00 - 24:00", "phone": "2102407607", "average_rating": 5, "operator": "Jamie Washington", "operational_chargers": 20, "cars_waiting": 4, "average_charging_time": 39, "wait_time_estimation": 7},
                 {"station_id": 5, "location": "9980 Lewis Trafficway\nStonehaven, ID 31160", "working_hours": "06:00 - 24:00", "phone": "2107577519", "average_rating": 3, "operator": "Edward Hopkins", "operational_chargers": 20, "cars_waiting": 10, "average_charging_time": 34, "wait_time_estimation": 17}
-            ]});
-            // pretend data came from backend
+            ];
 
-            /*
-            if(this.sortBy == "rating") this.setState({stationList : this.state.stationList.sort((a, b) => a.average_rating < b.average_rating)})
-            else if(this.sortBy == "wait-time") this.state.stationList.sort((a, b) => a.wait_time_estimation > b.wait_time_estimation)
-            */
+            // pretend data came from backend
+            if(this.state.sortBy == "rating") val = val.sort((a, b) => b.average_rating - a.average_rating)
+            else if(this.state.sortBy == "wait-time") val.sort((a, b) => a.wait_time_estimation - b.wait_time_estimation)
+
+            this.setState({stationList : val});
             this.setState({responseReceived : true});
         }
         else
@@ -58,12 +58,12 @@ class SelectStation extends React.Component
             <div className = "result-area">
                 <table>
                     <tr>
-                        {Object.entries(this.state.stationList[0]).map(([key, value]) => <th className = "table-header"> {key} </th> )}
+                        {Object.entries(this.state.stationList[0]).map(([key, value]) => <th key = {key} className = "table-header"> {key} </th> )}
                     </tr>
                     { this.state.stationList.map(function(dict, index){
                         return (
                             <tr>
-                                {Object.entries(dict).map(([key, value]) => <td className = "table-data"> {value} </td> )}
+                                {Object.entries(dict).map(([key, value]) => <td key = {key} className = "table-data"> {value} </td> )}
                             </tr>
                         );})
                     }
