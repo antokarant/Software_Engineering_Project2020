@@ -1,0 +1,22 @@
+/* tables */
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    width: 150px;
+}
+
+table .align {
+    text-align: right;
+}
+
+th {
+    color: white;
+    background-color: darkgray;
+}
+
+tr:nth-child(odd) {
+    background-color: whitesmoke;
+}
