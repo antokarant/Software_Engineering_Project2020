@@ -3,10 +3,13 @@ import {Link} from 'react-router-dom';
 import './App.css';
 import './Navbar.css';
 
-function Navbar()
+function Navbar(props)
 {
+        let loggedIn = props.loggedIn
     return (
         <nav>
+                this is a test
+                {console.log(loggedIn)}
             <ul>
                 <li><Link className = "link-text" to = "/homepage">Homepage</Link></li>
                 <li><Link className = "link-text" to = "/stations">Stations</Link></li>

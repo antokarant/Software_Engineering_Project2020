@@ -1,5 +1,7 @@
 import React from 'react';
 import './Sessions.css'
+import axios from 'axios';
+import querystring from 'querystring';
 
 class SessionsPerVehicle extends React.Component
 {
@@ -36,74 +38,33 @@ class SessionsPerVehicle extends React.Component
 
         if(this.state.vehicle && this.state.startDate && this.state.endDate)
         {
-            let requestObject = {
-                vehicle: this.state.vehicle,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate
-            };
+
             // connect with backend function - send request
-            this.state.sessionData = {
-                "VehicleID": 'AAM3341',
-                "RequestTimestamp": '2021-03-11 20:58:59.738',
-                "PeriodFrom": '20160101',
-                "PeriodTo": '20200101',
-                "TotalEnergyConsumed": 403.87,
-                "NumberOfVisitedPoints": 4,
-                "NumberOfVehicleChargingSessions": 4,
-                "VehicleChargingSessionsList": [
-                  {
-                    "SessionIndex": 0,
-                    "SessionID": 50,
-                    "EnergyProvider": 'WATT&VOLT',
-                    "StartedOn": '2016-04-27 18:03:35',
-                    "FinishedOn": '2016-04-27 18:57:31',
-                    "EnergyDelivered": 74.09,
-                    "PricePolicyRef": 5,
-                    "CostPerKWh": 0.12,
-                    "SessionCost": 8.89
-                  },
-                  {
-                    "SessionIndex": 1,
-                    "SessionID": 45,
-                    "EnergyProvider": 'WATT&VOLT',
-                    "StartedOn": '2016-05-03 07:16:26',
-                    "FinishedOn": '2016-05-03 07:57:54',
-                    "EnergyDelivered": 110.5,
-                    "PricePolicyRef": 2,
-                    "CostPerKWh": 0.1,
-                    "SessionCost": 11.05
-                  },
-                  {
-                    "SessionIndex": 2,
-                    "SessionID": 59,
-                    "EnergyProvider": 'WATT&VOLT',
-                    "StartedOn": '2017-10-21 14:29:08',
-                    "FinishedOn": '2017-10-21 15:19:15',
-                    "EnergyDelivered": 138.61,
-                    "PricePolicyRef": 3,
-                    "CostPerKWh": 0.1,
-                    "SessionCost": 13.86
-                  },
-                  {
-                    "SessionIndex": 3,
-                    "SessionID": 44,
-                    "EnergyProvider": 'ELPEDISON',
-                    "StartedOn": '2019-08-08 20:36:20',
-                    "FinishedOn": '2019-08-08 20:59:44',
-                    "EnergyDelivered": 80.67,
-                    "PricePolicyRef": 1,
-                    "CostPerKWh": 0.11,
-                    "SessionCost": 8.87
-                  }
-                ]
-            }
-            // pretend data came from backend
-            this.setState({responseReceived : true});
+            let url = `https://localhost:8765/evcharge/api/SessionsPerEV/${this.state.vehicle}/${this.state.startDate}/${this.state.endDate}`;
+
+
+                axios.get(url, {
+                                headers: {
+                                        "X-OBSERVATORY-AUTH": `Bearer ${document.cookie}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+                                this.setState({sessionData: obj})
+                                if(this.state.sessionData)
+                                        this.setState({responseReceived : true});
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+
+
         }
         else
         {
-            console.log("insufficient input");
-            console.log(this.state.startDate);
+            this.setState({ error: "Information required" });
         }
     }
 

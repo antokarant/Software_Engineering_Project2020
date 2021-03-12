@@ -1,5 +1,7 @@
 import React from 'react';
 import './Sessions.css'
+import axios from 'axios';
+import querystring from 'querystring';
 
 class SessionsPerProvider extends React.Component
 {
@@ -35,65 +37,32 @@ class SessionsPerProvider extends React.Component
 
         if(this.state.provider && this.state.startDate && this.state.endDate)
         {
-            let requestObject = {
-                provider: this.state.provider,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate
-            };
+
             // connect with backend function - send request
-            this.state.sessionData = [
-                  {
-                    "ProviderName": 'WATT&VOLT',
-                    "StationID": 2,
-                    "SessionID": 2,
-                    "VehicleID": 'YNK3285',
-                    "StartedOn": '2019-10-11 06:15:35',
-                    "FinishedOn": '2019-10-11 07:04:42',
-                    "EnergyDelivered": 98.88,
-                    "PricePolicyRef": 5,
-                    "CostPerKWh": 0.13,
-                    "TotalCost": 12.85
-                  },
-                  {
-                    "ProviderName": 'WATT&VOLT',
-                    "StationID": 2,
-                    "SessionID": 4,
-                    "VehicleID": 'XIE9018',
-                    "StartedOn": '2017-02-25 15:06:49',
-                    "FinishedOn": '2017-02-25 15:53:02',
-                    "EnergyDelivered": 101,
-                    "PricePolicyRef": 4,
-                    "CostPerKWh": 0.1,
-                    "TotalCost": 10.1
-                  },
-                  {
-                    "ProviderName": 'WATT&VOLT',
-                    "StationID": 2,
-                    "SessionID": 5,
-                    "VehicleID": 'GSI7098',
-                    "StartedOn": '2017-08-05 12:57:02',
-                    "FinishedOn": '2017-08-05 13:55:14',
-                    "EnergyDelivered": 41.51,
-                    "PricePolicyRef": 1,
-                    "CostPerKWh": 0.1,
-                    "TotalCost": 4.15
-                  },
-                  {
-                    "ProviderName": 'WATT&VOLT',
-                    "StationID": 2,
-                    "SessionID": 8,
-                    "VehicleID": 'BAB0460',
-                    "StartedOn": '2016-08-20 17:55:03',
-                    "FinishedOn": '2016-08-20 18:15:29',
-                    "EnergyDelivered": 100.29,
-                    "PricePolicyRef": 2,
-                    "CostPerKWh": 0.13,
-                    "TotalCost": 13.04
-                  }
-                ]
+            let url = `https://localhost:8765/evcharge/api/SessionsPerProvider/${this.state.provider}/${this.state.startDate}/${this.state.endDate}`;
 
 
-            this.setState({responseReceived : true});
+                axios.get(url, {
+                                headers: {
+                                        "X-OBSERVATORY-AUTH": `Bearer ${document.cookie}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+
+                                this.setState({sessionData: obj})
+                                if(this.state.sessionData)
+                                        this.setState({responseReceived : true});
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+
+
+
+
         }
         else
         {
@@ -128,6 +97,7 @@ class SessionsPerProvider extends React.Component
     {
         return (
             <div>
+                    {console.log("sdfsfd")}
                 <h1>Sessions</h1>
                 <div className = "session-form-area">
                     <form onSubmit={this.handleSubmit}>

@@ -1,5 +1,7 @@
 import React from 'react';
 import './Sessions.css'
+import axios from 'axios';
+import querystring from 'querystring';
 
 class SessionsPerStation extends React.Component
 {
@@ -35,39 +37,29 @@ class SessionsPerStation extends React.Component
 
         if(this.state.station && this.state.startDate && this.state.endDate)
         {
-            let requestObject = {
-                station: this.state.station,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate
-            };
+
             // connect with backend function - send request
-            this.state.sessionData = {
-                  "StationID": 3,
-                  "Operator": 'Cristina Smith',
-                  "RequestTimestamp": '2021-03-11 20:58:21.741',
-                  "PeriodFrom": '19000101',
-                  "PeriodTo": '20770101',
-                  "TotalEnergyDelivered": 113731.36,
-                  "NumberOfChargingSessions": 1267,
-                  "NumberOfActivePoints": 14,
-                  "SessionsSummaryList": [
-                    { "PointID": 10, "PointSessions": 90, "EnergyDelivered": 8147.3022 },
-                    { "PointID": 3, "PointSessions": 82, "EnergyDelivered": 7140.87 },
-                    { "PointID": 11, "PointSessions": 80, "EnergyDelivered": 7034.8403 },
-                    { "PointID": 1, "PointSessions": 99, "EnergyDelivered": 9387.572 },
-                    { "PointID": 6, "PointSessions": 83, "EnergyDelivered": 7529.0806 },
-                    { "PointID": 4, "PointSessions": 100, "EnergyDelivered": 8813.551 },
-                    { "PointID": 5, "PointSessions": 88, "EnergyDelivered": 7628.5693 },
-                    { "PointID": 14, "PointSessions": 98, "EnergyDelivered": 8623.301 },
-                    { "PointID": 2, "PointSessions": 89, "EnergyDelivered": 7999.399 },
-                    { "PointID": 13, "PointSessions": 91, "EnergyDelivered": 8339.529 },
-                    { "PointID": 12, "PointSessions": 94, "EnergyDelivered": 8382.5205 },
-                    { "PointID": 9, "PointSessions": 94, "EnergyDelivered": 8446.5205 },
-                    { "PointID": 8, "PointSessions": 83, "EnergyDelivered": 7595.0493 },
-                    { "PointID": 7, "PointSessions": 96, "EnergyDelivered": 8663.311 }
-                  ]
-            }
-            this.setState({responseReceived : true});
+            let url = `https://localhost:8765/evcharge/api/SessionsPerStation/${this.state.station}/${this.state.startDate}/${this.state.endDate}`;
+
+
+                axios.get(url, {
+                                headers: {
+                                        "X-OBSERVATORY-AUTH": `Bearer ${document.cookie}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+                                this.setState({sessionData: obj})
+                                if(this.state.sessionData)
+                                        this.setState({responseReceived : true});
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+
+
         }
         else
         {
@@ -113,12 +105,7 @@ class SessionsPerStation extends React.Component
                     <form onSubmit={this.handleSubmit}>
                         <label>
                             Station:
-                            <select className = "station-field" name = "station" value = {this.state.station} onChange={this.handleChange}>
-                                <option></option>
-                                <option value = "a">A</option>
-                                <option value = "b">B</option>
-                                <option value = "c">C</option>
-                            </select>
+                            <input className = "station-field" name = "station" value = {this.state.station} onChange={this.handleChange}/>
                         </label> <br />
                         <label>
                             From:

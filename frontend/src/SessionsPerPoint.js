@@ -1,5 +1,7 @@
 import React from 'react';
 import './Sessions.css'
+import axios from 'axios';
+import querystring from 'querystring';
 
 class SessionsPerPoint extends React.Component
 {
@@ -10,6 +12,7 @@ class SessionsPerPoint extends React.Component
             startDate: undefined,
             endDate: undefined,
             point: null,
+            station: null,
             sessionData: null,
             responseReceived: false
         };
@@ -34,61 +37,35 @@ class SessionsPerPoint extends React.Component
     {
         e.preventDefault();
 
-        if(this.state.point && this.state.startDate && this.state.endDate)
+        if(this.state.point && this.state.station && this.state.startDate && this.state.endDate)
         {
-            let requestObject = {
-                point: this.state.point,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate
-            };
+
             // connect with backend function - send request
-            this.state.sessionData = {
-                "Station": 1,
-                "Point": 1,
-                "PointOperator": 'Angela Harris',
-                "RequestTimestamp": '2021-03-11 20:56:19.204',
-                "PeriodFrom": '20160101',
-                "PeriodTo": '20200101',
-                "NumberOfChargingSessions": 75,
-                "ChargingSessionsList": [
-                {
-                    "SessionIndex": 0,
-                    "SessionID": 68,
-                    "StartedOn": '2016-03-09 22:22:29',
-                    "FinishedOn": '2016-03-09 22:46:40',
-                    "Protocol": 5,
-                    "EnergyDelivered": 116.59,
-                    "Payment": 'Card',
-                    "VehicleType": 'Volkswagen ID.3'
-                },
-                {
-                    "SessionIndex": 1,
-                    "SessionID": 2,
-                    "StartedOn": '2016-03-24 19:26:54',
-                    "FinishedOn": '2016-03-24 19:41:27',
-                    "Protocol": 1,
-                    "EnergyDelivered": 131.9,
-                    "Payment": 'Cash',
-                    "VehicleType": 'Audi A3 Sportback 40 e-tron'
-                },
-                {
-                    "SessionIndex": 2,
-                    "SessionID": 6,
-                    "StartedOn": '2016-05-17 20:43:54',
-                    "FinishedOn": '2016-05-17 21:25:25',
-                    "Protocol": 1,
-                    "EnergyDelivered": 81.5,
-                    "Payment": 'Cash',
-                    "VehicleType": 'Opel Corsa-e'
-                }
-            ]}
-            // pretend data came from backend
-            this.setState({responseReceived : true});
+            let url = `https://localhost:8765/evcharge/api/SessionsPerPoint/${this.state.station}/${this.state.point}/${this.state.startDate}/${this.state.endDate}`;
+
+
+                axios.get(url, {
+                                headers: {
+                                        "X-OBSERVATORY-AUTH": `Bearer ${document.cookie}`
+                                }
+                        }).then(res => {
+                                let obj = res.data;
+                                JSON.stringify(obj)
+                                this.setState({sessionData: obj})
+                                if(this.state.sessionData)
+                                        this.setState({responseReceived : true});
+
+                        })
+                        .catch(error => {
+                                console.error(error)
+                        });
+
+
+
         }
         else
         {
-            console.log("insufficient input");
-            console.log(this.state.startDate);
+            this.setState({ error: "Information required" });
         }
     }
 
@@ -127,6 +104,10 @@ class SessionsPerPoint extends React.Component
                 <h1>Sessions</h1>
                 <div className = "session-form-area">
                     <form>
+                        <label>
+                            Station:
+                            <input className = "point-field" name = "station" value = {this.state.station} onChange={this.handleChange} />
+                        </label> <br />
                         <label>
                             Point:
                             <input className = "point-field" name = "point" value = {this.state.point} onChange={this.handleChange} />

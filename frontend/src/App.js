@@ -39,7 +39,7 @@ class App extends React.Component {
         this.LoginProcess = this.LoginProcess.bind(this);
         this.LogoutProcess = this.LogoutProcess.bind(this);
         this.showspecs = this.showspecs.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.myChangeHandler = this.myChangeHandler.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -74,23 +74,26 @@ class App extends React.Component {
         }
     }
 
-    handleChange(event)
-    {
-        const target = event.target;
-        const value = target.value;
-        // must check for type if datatypes are different, here both are strings
-        const name = target.name;
+    myChangeHandler = (event) => {
+            event.preventDefault();
 
-        console.log(this.state.loggedIn);
+          let nam = event.target.name;
+          let val = event.target.value;
+          this.setState({[nam]: val});
 
-        this.setState({ [name]: value });
-    }
+  }
 
     handleSubmit(e)
     {
         e.preventDefault();
-        console.log("I hate it here");
-        this.setState({loggedIn : true});
+        console.log(this.state.username, this.state.password, this.state.tokenPath)
+
+        if(this.state.username && this.state.password){
+                this.LoginProcess();
+        }else{
+                console.log("specify everything");
+        }
+
     }
 
     showspecs = (event) => {
@@ -105,7 +108,7 @@ class App extends React.Component {
             return (
                 <div className="App">
                     <header className = "app-header">Software Engineering Project</header>
-                    <Navbar />
+                    <Navbar loggedIn = {this.state.loggedIn}/>
                     <Route exact path = "/homepage" component = {Homepage} />
                     <Route exact path = "/stations" component = {Stations} />
                     <Route exact path = "/points" component = {Points} />
@@ -130,11 +133,11 @@ class App extends React.Component {
                         <form>
                             <label>
                                 Username:
-                                <input className = "username-field" type = "text" name = "username" />
+                                <input className = "username-field" type = "text" name = "username" onChange={this.myChangeHandler}/>
                             </label> <br />
                             <label>
                                 Password:
-                                <input className = "password-field" type = "password" name = "password" />
+                                <input className = "password-field" type = "password" name = "password" onChange={this.myChangeHandler}/>
                             </label> <br />
                             <button onClick={this.handleSubmit}>Login</button>
                           </form>
@@ -175,10 +178,38 @@ class App extends React.Component {
 
     }
 
-    LoginProcess()
-    {
-        this.setState({loggedIn : false});
-    }
+    LoginProcess(){
+            console.log(this.state.username, this.state.password, this.state.tokenPath)
+            let url = `https://localhost:8765/evcharge/api/login`;
+        axios.post(url, querystring.stringify({
+                        "username": this.state.username,
+                        "password": this.state.password
+                }), {
+                        headers: {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                        }
+                        /*params: {
+                                "username": username,
+                                "password": password
+                        }*/
+                }).then(res => {
+                        console.log("we are here")
+                        let obj = res.data;
+                        JSON.stringify(obj)
+                        this.setState({token: obj.token})
+                        console.log(this.state.token)
+                        document.cookie = obj.token;
+                        if(obj.token)
+                                this.setState({loggedIn: true,})
+
+                })
+                .catch(error => {
+                        this.setState({token: null,
+                                        loggedIn: false})
+                                   });
+
+}
+
 
     LogoutProcess()
     {
