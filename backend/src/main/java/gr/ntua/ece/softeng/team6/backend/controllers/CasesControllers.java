@@ -98,6 +98,8 @@ List<StationsNear> stationsNear(@PathVariable String stateTarget){
 
 
         }
+        if(result.size() == 0)
+                return null;
 
         return result;
 
