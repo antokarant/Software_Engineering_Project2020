@@ -1,12 +1,14 @@
 import React from 'react';
 import './Admin.css'
+import axios from 'axios';
+import querystring from 'querystring';
 
 class UserGet extends React.Component
 {
     constructor(props)
     {
         super(props);
-        this.state = { username: null, responseReceived: false, userData: null };
+        this.state = { username: null, responseReceived: false, userData: null, notfound:false };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,13 +30,28 @@ class UserGet extends React.Component
 
         if (this.state.username)
         {
-            console.log("hello");
-            let requestObject = { "username": this.state.username };
+
             // connect with backend function
-            // userData
-            let val = {"username" : "Little_Timmy", "password" : "ilikelegos123", "role" : "user"};
-            this.setState({userData : val});
-            this.setState({ responseReceived : true });
+
+            let url = `https://localhost:8765/evcharge/api/admin/users/${this.state.username}`;
+
+
+               axios.get(url, {
+                               headers: {
+                                       "X-OBSERVATORY-AUTH": `${document.cookie}`
+                               }
+                       }).then(res => {
+                               let obj = res.data;
+                               this.setState({userData : obj});
+                               this.setState({ responseReceived : true });
+
+                       })
+                       .catch(error => {
+                               this.setState({ notfound : true });
+                               //console.error(error)
+                       });
+
+
         }
         else
         {
@@ -70,7 +87,9 @@ class UserGet extends React.Component
                     </form>
                 </div>
                 <hr/>
-                {this.state.responseReceived ? this.displayResults() : <div></div>}
+                {this.state.responseReceived && !this.state.notfound ? this.displayResults() : <div></div>}
+                {this.state.responseReceived && this.state.notfound ? <div>User not found</div> : <div></div>}
+
             </div>
         );
     }

@@ -1,5 +1,7 @@
 import React from 'react';
 import './Admin.css';
+import axios from 'axios';
+import querystring from 'querystring';
 
 class ResetSessions extends React.Component
 {
@@ -33,6 +35,18 @@ class ResetSessions extends React.Component
     {
         e.preventDefault();
         this.setState({confirm : true})
+        let url = `https://localhost:8765/evcharge/api/admin/resetsessions`;
+
+        axios.post(url, null)
+                .then(res => {
+                        let obj = res.data;
+                        JSON.stringify(obj)
+
+                })
+                .catch(error => {
+                        console.error(error)
+                });
+
     }
 
     handleSubmit1(e)

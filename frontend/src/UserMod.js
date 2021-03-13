@@ -1,5 +1,7 @@
 import React from 'react';
 import './Admin.css'
+import axios from 'axios';
+import querystring from 'querystring';
 
 class UserMod extends React.Component
 {
@@ -27,9 +29,22 @@ class UserMod extends React.Component
 
         if (this.state.username && this.state.password)
         {
-            let requestObject = { "username": this.state.username, "password": this.state.password };
-            // connect with backend function
 
+            // connect with backend function
+            let url = `https://localhost:8765/evcharge/api/admin/usermod/${this.state.username}/${this.state.password}`;
+
+
+               axios.post(url, null, {
+                               headers: {
+                                       "X-OBSERVATORY-AUTH": `${document.cookie}`
+                               }
+                       }).then(res => {
+                               console.log(res.data);
+
+                       })
+                       .catch(error => {
+                               console.error(error)
+                       });
         }
         else
         {

@@ -1,5 +1,7 @@
 import React from 'react';
 import './Admin.css'
+import axios from 'axios';
+import querystring from 'querystring';
 
 class UserDelete extends React.Component
 {
@@ -36,14 +38,28 @@ class UserDelete extends React.Component
 
         if(this.state.username)
         {
-            let requestObject = { "username": this.state.username };
             // connect with backend function
-            this.setState({responseReceived: true});
-        }
-        else
-        {
+            let url = `https://localhost:8765/evcharge/api/users/${this.state.username}`;
+
+
+               axios.delete(url, {
+                               headers: {
+                                       "X-OBSERVATORY-AUTH": `${document.cookie}`
+                               }
+                       }).then(res => {
+                               //console.log(res.data);
+                               this.setState({responseReceived: true});
+
+                       })
+                       .catch(error => {
+                               console.error(error)
+                       });
+            }
+            else
+            {
             this.setState({ error: "Information required" });
-        }
+            }
+
     }
 
     finalConfirmation()

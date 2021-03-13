@@ -37,6 +37,7 @@ public class BackendApplication {
 				.antMatchers(HttpMethod.GET, "/admin/users").hasRole("ADMIN")
 				.antMatchers(HttpMethod.GET, "/users/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/admin/system/sessionsupd").hasRole("ADMIN")
+				.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/admin/resetsessions").permitAll()
 				.antMatchers(HttpMethod.POST, "/users").permitAll()
 				.antMatchers(HttpMethod.POST, "/owners").permitAll()
@@ -46,8 +47,12 @@ public class BackendApplication {
 				.antMatchers(HttpMethod.POST, "/chargers").permitAll()
 				.antMatchers(HttpMethod.POST, "/vehicles").permitAll()
 				.antMatchers(HttpMethod.POST, "/sessions").permitAll()
-
-
+				//prepein na svhstoun ta katw
+				.antMatchers(HttpMethod.GET, "/SessionsPerStation/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/SessionsPerPoint/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/SessionsPerEV/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/SessionsPerProvider/**").permitAll()
+				//mexri edw
 				.anyRequest().authenticated();
 		}
 	}

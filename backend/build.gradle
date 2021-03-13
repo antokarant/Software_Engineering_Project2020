@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.11.2'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
 	compile "com.opencsv:opencsv:4.0"
 }

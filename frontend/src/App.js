@@ -15,7 +15,7 @@ import Navbar from './Navbar';
 import NavbarAdmin from './NavbarAdmin';
 import UserMod from './UserMod';
 import UserGet from './UserGet';
-import Healthcheck from './Healthcheck';
+import HealthCheck from './HealthCheck';
 import UserDelete from './UserDelete';
 import ResetSessions from './ResetSessions';
 import SubmitFile from './SubmitFile';
@@ -39,6 +39,7 @@ class App extends React.Component {
             loggedIn: false,
             tokenPath : "./softeng20bAPI.token",
             token: undefined,
+            role: null,
         };
 
         this._onButtonClick = this._onButtonClick.bind(this);
@@ -111,6 +112,7 @@ class App extends React.Component {
     {
         if(this.state.loggedIn)
         {
+                console.log(this.state.role)
             if(this.state.role === "ADMIN")
                 return (
                     <div className="App">
@@ -120,7 +122,7 @@ class App extends React.Component {
                         <Route exact path = "/user-get" component = {UserGet} />
                         <Route exact path = "/user-delete" component = {UserDelete} />
                         <Route exact path = "/upload-file" component = {SubmitFile} />
-                        <Route exact path = "/healthcheck" component = {Healthcheck} />
+                        <Route exact path = "/healthcheck" component = {HealthCheck} />
                         <Route exact path = "/reset-sessions" component = {ResetSessions} />
                     </div>
                 );
@@ -194,11 +196,12 @@ class App extends React.Component {
                 this.setState({token: null, loggedIn: false})
             });
 
-            let url = `https://localhost:8765/evcharge/api/users/`${this.state.role};
+            url = `https://localhost:8765/evcharge/api/users/${this.state.username}`;
 
             axios.get(url, null)
                 .then(res => {
                     let obj = res.data;
+                    console.log(obj)
                     this.setState({role: obj})
             })
             .catch(error => {

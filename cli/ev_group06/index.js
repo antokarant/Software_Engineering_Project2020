@@ -367,7 +367,7 @@ const sessionsupd = (source) => {
 
                         })
                         .catch(error => {
-                                console.log("we drank it")
+                                console.log("sth went wrong")
                                 console.error(error)
                         });
 
