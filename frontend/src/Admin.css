@@ -1,10 +1,11 @@
-.enter-button
+.enter-button, .reset-button, .submit-button
 {
     font-size: 1.1em;
     margin-right: 5px;
+    margin-top: 5px;
 }
 
-.usermod-area, .userget-area
+.usermod-area, .userget-area, .file-upload-area, .admin-area
 {
     margin-left: 20px;
 }

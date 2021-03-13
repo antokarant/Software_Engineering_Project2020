@@ -1,16 +1,17 @@
 import React from 'react';
 import './Admin.css'
 
-class UserGet extends React.Component
+class UserDelete extends React.Component
 {
     constructor(props)
     {
         super(props);
-        this.state = { username: null, responseReceived: false, userData: null };
+        this.state = { username: null, clickedDelete: false, responseReceived: false };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.displayResults = this.displayResults.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.finalConfirmation = this.finalConfirmation.bind(this);
     }
 
     handleChange(event)
@@ -22,19 +23,22 @@ class UserGet extends React.Component
         this.setState({ [name]: value });
     }
 
+    handleClick(e)
+    {
+        e.preventDefault();
+
+        this.setState({ clickedDelete: true });
+    }
+
     handleSubmit(e)
     {
         e.preventDefault();
 
-        if (this.state.username)
+        if(this.state.username)
         {
-            console.log("hello");
             let requestObject = { "username": this.state.username };
             // connect with backend function
-            // userData
-            let val = {"username" : "Little_Timmy", "password" : "ilikelegos123", "role" : "user"};
-            this.setState({userData : val});
-            this.setState({ responseReceived : true });
+            this.setState({responseReceived: true});
         }
         else
         {
@@ -42,23 +46,22 @@ class UserGet extends React.Component
         }
     }
 
-    displayResults()
+    finalConfirmation()
     {
-        console.log(this.state.userData["username"]);
         return (
             <div className = "admin-area">
-                <p>User name: {this.state.userData["username"]}</p>
-                <p>Password: {this.state.userData["password"]}</p>
-                <p>Role: {this.state.userData["role"]}</p>
+                Permanently delete user?
+                <button className = "enter-button" onClick = {this.handleSubmit}>Confirm</button>
+                <br />
             </div>
-        );
+        )
     }
 
     render()
     {
         return (
             <div>
-                <h1>Get User Information</h1>
+                <h1>User Deletion</h1>
                 <div className = "userget-area">
                     <form>
                         <label className = "username-field">
@@ -66,14 +69,14 @@ class UserGet extends React.Component
                             <input type = "text" name = "username" value = {this.state.username} onChange = {this.handleChange}/>
                         </label>
                         <br />
-                        <button className = "enter-button" onClick = {this.handleSubmit}>Enter</button>
+                        <button className = "enter-button" onClick = {this.handleClick}>Delete</button>
                     </form>
                 </div>
-                <hr/>
-                {this.state.responseReceived ? this.displayResults() : <div></div>}
+                {this.state.clickedDelete ? this.finalConfirmation() : <div></div>}
+                {this.state.responseReceived ? <div><br /><h3>User "{this.state.username}" has been terminated</h3></div> : <div></div>}
             </div>
         );
     }
 }
 
-export default UserGet;
+export default UserDelete;

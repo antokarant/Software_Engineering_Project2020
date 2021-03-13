@@ -1,6 +1,6 @@
 import React from 'react';
 
-class ChargeEV extends React.Component
+class SubmitFile extends React.Component
 {
     constructor(props)
     {
@@ -36,4 +36,4 @@ class ChargeEV extends React.Component
     }
 }
 
-export default ChargeEV;
+export default SubmitFile;

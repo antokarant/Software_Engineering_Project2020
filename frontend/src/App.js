@@ -12,6 +12,13 @@ import SelectStation from './SelectStation';
 import ChargeEV from './ChargeEV';
 import Diagrams from './Diagrams';
 import Navbar from './Navbar';
+import NavbarAdmin from './NavbarAdmin';
+import UserMod from './UserMod';
+import UserGet from './UserGet';
+import Healthcheck from './Healthcheck';
+import UserDelete from './UserDelete';
+import ResetSessions from './ResetSessions';
+import SubmitFile from './SubmitFile';
 import {Route, Link, BrowserRouter} from 'react-router-dom';
 import axios from 'axios';
 import querystring from 'querystring';
@@ -104,22 +111,36 @@ class App extends React.Component {
     {
         if(this.state.loggedIn)
         {
-            return (
-                <div className="App">
-                    <header className = "app-header">Software Engineering Project</header>
-                    <Navbar loggedIn = {this.state.loggedIn}/>
-                    <Route exact path = "/homepage" component = {Homepage} />
-                    <Route exact path = "/stations" component = {Stations} />
-                    <Route exact path = "/points" component = {Points} />
-                    <Route exact path = "/sessions-point" component = {SessionsPerPoint} />
-                    <Route exact path = "/sessions-station" component = {SessionsPerStation} />
-                    <Route exact path = "/sessions-vehicle" component = {SessionsPerVehicle} />
-                    <Route exact path = "/sessions-provider" component = {SessionsPerProvider} />
-                    <Route exact path = "/select-station" component = {SelectStation} />
-                    <Route exact path = "/charge-ev" component = {ChargeEV} />
-                    <Route exact path = "/diagrams" component = {Diagrams} />
-                </div>
-            );
+            if(this.state.role === "ADMIN")
+                return (
+                    <div className="App">
+                        <header className = "app-header">Welcome back, Agent 47</header>
+                        <NavbarAdmin />
+                        <Route exact path = "/user-mod" component = {UserMod} />
+                        <Route exact path = "/user-get" component = {UserGet} />
+                        <Route exact path = "/user-delete" component = {UserDelete} />
+                        <Route exact path = "/upload-file" component = {SubmitFile} />
+                        <Route exact path = "/healthcheck" component = {Healthcheck} />
+                        <Route exact path = "/reset-sessions" component = {ResetSessions} />
+                    </div>
+                );
+            else
+                return (
+                    <div className="App">
+                        <header className = "app-header">Software Engineering Project</header>
+                        <Navbar loggedIn = {this.state.loggedIn}/>
+                        <Route exact path = "/homepage" component = {Homepage} />
+                        <Route exact path = "/stations" component = {Stations} />
+                        <Route exact path = "/points" component = {Points} />
+                        <Route exact path = "/sessions-point" component = {SessionsPerPoint} />
+                        <Route exact path = "/sessions-station" component = {SessionsPerStation} />
+                        <Route exact path = "/sessions-vehicle" component = {SessionsPerVehicle} />
+                        <Route exact path = "/sessions-provider" component = {SessionsPerProvider} />
+                        <Route exact path = "/select-station" component = {SelectStation} />
+                        <Route exact path = "/charge-ev" component = {ChargeEV} />
+                        <Route exact path = "/diagrams" component = {Diagrams} />
+                    </div>
+                );
         }
         else
         {
@@ -149,17 +170,15 @@ class App extends React.Component {
     LoginProcess(){
             console.log(this.state.username, this.state.password, this.state.tokenPath)
             let url = `https://localhost:8765/evcharge/api/login`;
-        axios.post(url, querystring.stringify({
-                        "username": this.state.username,
-                        "password": this.state.password
-                }), {
-                        headers: {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                        }
-                        /*params: {
-                                "username": username,
-                                "password": password
-                        }*/
+            axios.post(url,
+                querystring.stringify({
+                    "username": this.state.username,
+                    "password": this.state.password
+                }),
+                {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
                 }).then(res => {
                         console.log("we are here")
                         let obj = res.data;
@@ -170,11 +189,21 @@ class App extends React.Component {
                         if(obj.token)
                                 this.setState({loggedIn: true,})
 
-                })
-                .catch(error => {
-                        this.setState({token: null,
-                                        loggedIn: false})
-                                   });
+            })
+            .catch(error => {
+                this.setState({token: null, loggedIn: false})
+            });
+
+            let url = `https://localhost:8765/evcharge/api/users/`${this.state.role};
+
+            axios.get(url, null)
+                .then(res => {
+                    let obj = res.data;
+                    this.setState({role: obj})
+            })
+            .catch(error => {
+                console.error(error)
+            });
 
 }
 
@@ -188,19 +217,5 @@ class App extends React.Component {
     }
 
 }
-/*let url = `https://localhost:8765/evcharge/api/users/${this.state.role}`;
-
-
-    axios.get(url, null)
-                .then(res => {
-                    let obj = res.data;
-                    //JSON.stringify(obj)
-                    this.setState({role: obj})
-                    
-
-            })
-            .catch(error => {
-                    console.error(error)
-            });*/
 
 export default App;

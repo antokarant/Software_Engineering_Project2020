@@ -24,7 +24,7 @@ class UserMod extends React.Component
     handleSubmit(e)
     {
         e.preventDefault();
-        
+
         if (this.state.username && this.state.password)
         {
             let requestObject = { "username": this.state.username, "password": this.state.password };
@@ -57,7 +57,7 @@ class UserMod extends React.Component
                     </form>
                 </div>
                 <hr/>
-                {this.state.responseReceived ? this.displayResults() : <div></div>}
+                {this.state.responseReceived ? <div><h3>User "{this.state.username}" has been modified successfully</h3></div> : <div></div>}
             </div>
         );
     }
