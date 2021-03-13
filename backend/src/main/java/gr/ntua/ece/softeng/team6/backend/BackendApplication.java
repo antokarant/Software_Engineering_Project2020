@@ -35,6 +35,7 @@ public class BackendApplication {
 				//.antMatchers(HttpMethod.GET, "/admin/testing/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/admin/usermod").hasRole("ADMIN")
 				.antMatchers(HttpMethod.GET, "/admin/users").hasRole("ADMIN")
+				.antMatchers(HttpMethod.GET, "/users/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/admin/system/sessionsupd").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/admin/resetsessions").permitAll()
 				.antMatchers(HttpMethod.POST, "/users").permitAll()

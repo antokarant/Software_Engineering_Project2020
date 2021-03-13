@@ -6,6 +6,7 @@ import gr.ntua.ece.softeng.team6.backend.models.*;
 
 import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 class UserController{
 
@@ -19,6 +20,16 @@ class UserController{
         @GetMapping("/users")
         List<User> all(){
                 return repository.findAll();
+        }
+        @GetMapping("/users/{username}")
+        String userRole(@PathVariable String username){
+                try{
+                        User user = repository.findById(username).get();
+                        return user.getRole();
+                }
+                catch(Exception e){
+                        return "error";
+                }
         }
         @PostMapping("/users")
         User newUser(@RequestBody User newUser){

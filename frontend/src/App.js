@@ -8,7 +8,6 @@ import SessionsPerPoint from './SessionsPerPoint';
 import SessionsPerStation from './SessionsPerStation';
 import SessionsPerVehicle from './SessionsPerVehicle';
 import SessionsPerProvider from './SessionsPerProvider';
-import Anotherpage from './Anotherpage';
 import SelectStation from './SelectStation';
 import ChargeEV from './ChargeEV';
 import Diagrams from './Diagrams';
@@ -189,5 +188,19 @@ class App extends React.Component {
     }
 
 }
+/*let url = `https://localhost:8765/evcharge/api/users/${this.state.role}`;
+
+
+    axios.get(url, null)
+                .then(res => {
+                    let obj = res.data;
+                    //JSON.stringify(obj)
+                    this.setState({role: obj})
+                    
+
+            })
+            .catch(error => {
+                    console.error(error)
+            });*/
 
 export default App;

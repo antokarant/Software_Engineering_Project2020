@@ -1,5 +1,7 @@
 import React from 'react';
 import './ChargeEV.css'
+import axios from 'axios';
+import querystring from 'querystring';
 
 class ChargeEV extends React.Component
 {
@@ -107,7 +109,25 @@ class ChargeEV extends React.Component
                 "charger_station_id" : this.state.station,
                 "license_plate" : this.state.vehicle
             }
-        }
+
+            let url = `https://localhost:8765/evcharge/api/ChargeEV`;
+
+
+            axios.post(url,requestObject, {
+                            headers: {
+                                    "X-OBSERVATORY-AUTH": `${document.cookie}`
+                            }
+                    }).then(res => {
+                            let obj = res.data;
+                            JSON.stringify(obj)
+                            this.setState({responseReceived : true});
+
+
+                    })
+                    .catch(error => {
+                            console.error(error)
+                    });
+            }
         else
         {
             console.log("please choose method");
@@ -175,6 +195,8 @@ class ChargeEV extends React.Component
                 <hr />
                 {this.state.costEstimated ? this.displayResults() : <div></div>}
                 {this.state.clickedProceed ? this.displayFinalStep() : <div></div>}
+                {this.state.responseReceived ? <div><h3>Transaction completed</h3></div> : <div></div>}
+
             </div>
         );
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import Points from './Points';
 import Stations from './Stations';
-import Anotherpage from './Anotherpage';
 import Navbar from './Navbar';
 import './Homepage.css'
 import {Route} from 'react-router-dom';

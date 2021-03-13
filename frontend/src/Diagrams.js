@@ -173,9 +173,9 @@ class Diagrams extends React.Component
 
     selectRenderer()
     {
-        if(this.state.command == "plot") return this.plotResults();
-        else if(this.state.command == "vehicle") return this.vehicleReport();
-        else if(this.state.command == "analytics") return this.displayAnalytics();
+        if(this.state.command === "plot") return this.plotResults();
+        else if(this.state.command === "vehicle") return this.vehicleReport();
+        else if(this.state.command === "analytics") return this.displayAnalytics();
     }
 
     vehicleReport()
