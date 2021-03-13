@@ -8,4 +8,4 @@
 ## Βήματα Εγκατάστασης
 Σε γραμμή εντολών στην διεύθυνση του φακέλου back-end, με τις εξής εντολές:
 1. `gradle clean build`
-2. `/gradlew bootRun`
+2. `./gradlew bootRun`
