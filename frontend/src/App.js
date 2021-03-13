@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from './logo.svg';
+import porsche from './porsche3.jpg';
 import './App.css';
 import Homepage from './Homepage';
 import SessionsPerPoint from './SessionsPerPoint';
@@ -129,6 +129,7 @@ class App extends React.Component {
                     <div className="App">
                         <header className = "app-header">Software Engineering Project</header>
                         <Navbar loggedIn = {this.state.loggedIn}/>
+                        <Route exact path = "/" component = {Homepage} />
                         <Route exact path = "/homepage" component = {Homepage} />
                         <Route exact path = "/sessions-point" component = {SessionsPerPoint} />
                         <Route exact path = "/sessions-station" component = {SessionsPerStation} />
@@ -142,22 +143,26 @@ class App extends React.Component {
         }
         else
         {
-            console.log("again?");
             return (
                 <div>
-                    <h1>This is the login page</h1>
-                    <div className = "login-area">
-                        <form>
-                            <label>
-                                Username:
-                                <input className = "username-field" type = "text" name = "username" onChange={this.myChangeHandler}/>
-                            </label> <br />
-                            <label>
-                                Password:
-                                <input className = "password-field" type = "password" name = "password" onChange={this.myChangeHandler}/>
-                            </label> <br />
-                            <button onClick={this.handleSubmit}>Login</button>
-                          </form>
+                    <div className = "home-container">
+                        <img src = {porsche} className = "login-image" />
+                        <div className = "home-text">
+                        <h1 className = "login-text">This is the login page</h1>
+                        <div className = "login-area">
+                            <form>
+                                <label>
+                                    Username:
+                                    <input className = "username-field" type = "text" name = "username" />
+                                </label> <br />
+                                <label>
+                                    Password:
+                                    <input className = "password-field" type = "password" name = "password" />
+                                </label> <br />
+                                <button onClick={this.handleSubmit}>Login</button>
+                              </form>
+                          </div>
+                         </div>
                       </div>
                   </div>
             );
