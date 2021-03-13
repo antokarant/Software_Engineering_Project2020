@@ -19,6 +19,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security' 	//for security
 	implementation 'org.springframework.security:spring-security-test'	//for security
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	testImplementation 'org.apache.httpcomponents:httpclient'
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.0.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'com.h2database:h2:1.4.194'

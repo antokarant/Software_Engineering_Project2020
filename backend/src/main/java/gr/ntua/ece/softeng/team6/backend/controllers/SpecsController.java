@@ -584,6 +584,9 @@ String sesperprovider(@PathVariable String providerid,@PathVariable String yyyym
                 e.printStackTrace();
         }
 
+        if(result.size() == 0)
+                return null;
+
         String jsonResult;
         try{
                 ObjectMapper objectMapper = new ObjectMapper();

@@ -2,8 +2,6 @@ package gr.ntua.ece.softeng.team6.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,14 +30,13 @@ public class BackendApplication {
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.antMatchers(HttpMethod.GET, "/admin/healthcheck").permitAll()
-				//.antMatchers(HttpMethod.GET, "/admin/testing/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/admin/usermod").hasRole("ADMIN")
 				.antMatchers(HttpMethod.GET, "/admin/users").hasRole("ADMIN")
 				.antMatchers(HttpMethod.GET, "/users/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/admin/system/sessionsupd").hasRole("ADMIN")
 				.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 				.antMatchers(HttpMethod.POST, "/admin/resetsessions").permitAll()
-				.antMatchers(HttpMethod.POST, "/users").permitAll()
+				//.antMatchers(HttpMethod.POST, "/users").permitAll()  //gia eisodo xrhsth (kai admin kai allous rolous)
 				.antMatchers(HttpMethod.POST, "/owners").permitAll()
 				.antMatchers(HttpMethod.POST, "/vehicle_types").permitAll()
 				.antMatchers(HttpMethod.POST, "/charger_types").permitAll()
