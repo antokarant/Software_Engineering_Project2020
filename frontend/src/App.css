@@ -2,6 +2,13 @@
     background-color: lightgray;
 }
 
+/* logout button */
+.logout-button
+{
+    font-size: 1.1em;
+    float: right;
+}
+
 .app-header {
     text-align: left;
     font-size: 2em;

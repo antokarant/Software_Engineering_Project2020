@@ -58,11 +58,6 @@ class SessionsPerProvider extends React.Component
                         .catch(error => {
                                 console.error(error)
                         });
-
-
-
-
-
         }
         else
         {

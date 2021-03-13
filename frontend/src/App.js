@@ -115,6 +115,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <header className = "app-header">Welcome back, Agent 47</header>
+                        <button className = "logout-button" onClick = {this.LogoutProcess}>Log out</button>
                         <NavbarAdmin />
                         <Route exact path = "/user-mod" component = {UserMod} />
                         <Route exact path = "/user-get" component = {UserGet} />
@@ -128,6 +129,7 @@ class App extends React.Component {
                 return (
                     <div className="App">
                         <header className = "app-header">Software Engineering Project</header>
+                        <button className = "logout-button" onClick = {this.LogoutProcess}>Log out</button>
                         <Navbar loggedIn = {this.state.loggedIn}/>
                         <Route exact path = "/" component = {Homepage} />
                         <Route exact path = "/homepage" component = {Homepage} />
@@ -215,7 +217,7 @@ class App extends React.Component {
     LogoutProcess()
     {
         document.cookie = null;
-        this.setState({token: undefined, loggedin: false})
+        this.setState({token: undefined, loggedIn: false})
         console.log(this.state.token)
         console.log(this.state.loggedin)
     }
