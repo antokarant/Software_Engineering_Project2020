@@ -88,8 +88,7 @@ class UserGet extends React.Component
                 </div>
                 <hr/>
                 {this.state.responseReceived && !this.state.notfound ? this.displayResults() : <div></div>}
-                {this.state.responseReceived && this.state.notfound ? <div>User not found</div> : <div></div>}
-
+                {this.state.responseReceived && this.state.notfound ? <div className = "admin-area">User not found</div> : <div></div>}
             </div>
         );
     }

@@ -11,8 +11,6 @@ function Navbar(props)
                 {console.log(loggedIn)}
             <ul>
                 <li><Link className = "link-text" to = "/homepage">Homepage</Link></li>
-                <li><Link className = "link-text" to = "/stations">Stations</Link></li>
-                <li><Link className = "link-text" to = "/points">Points</Link></li>
                 <li>
                     <div className = "dropdown">
                         <div className = "link-text">Sessions</div>

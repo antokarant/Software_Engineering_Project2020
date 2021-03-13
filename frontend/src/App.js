@@ -2,8 +2,6 @@ import React from 'react'
 import logo from './logo.svg';
 import './App.css';
 import Homepage from './Homepage';
-import Points from './Points';
-import Stations from './Stations';
 import SessionsPerPoint from './SessionsPerPoint';
 import SessionsPerStation from './SessionsPerStation';
 import SessionsPerVehicle from './SessionsPerVehicle';
@@ -132,8 +130,6 @@ class App extends React.Component {
                         <header className = "app-header">Software Engineering Project</header>
                         <Navbar loggedIn = {this.state.loggedIn}/>
                         <Route exact path = "/homepage" component = {Homepage} />
-                        <Route exact path = "/stations" component = {Stations} />
-                        <Route exact path = "/points" component = {Points} />
                         <Route exact path = "/sessions-point" component = {SessionsPerPoint} />
                         <Route exact path = "/sessions-station" component = {SessionsPerStation} />
                         <Route exact path = "/sessions-vehicle" component = {SessionsPerVehicle} />
