@@ -52,6 +52,9 @@ public Float EnergyDelivered;
 public String Payment;
 public String VehicleType;
 
+public String toString(){//overriding the toString() method
+  return SessionIndex+" "+SessionID+" "+StartedOn+" "+FinishedOn+" "+Protocol+" "+EnergyDelivered+" "+Payment+" "+VehicleType;
+ }
 
 }
 
@@ -73,18 +76,38 @@ public Integer NumberOfChargingSessions;
 
 public List<ChargingSessions> ChargingSessionsList;
 
+}
+
+private class SessionsPerPointcsv {
+
+SessionsPerPointcsv(){
+}
+SessionsPerPointcsv(int t){
+        NumberOfChargingSessions = t;
+}
+public Integer Station;
+public Integer Point;
+public String PointOperator;
+public String RequestTimestamp;
+public String PeriodFrom;
+public String PeriodTo;
+public Integer NumberOfChargingSessions;
+
+
+public String ChargingSessionsList;
+
 
 }
 
 @GetMapping("/SessionsPerPoint/{stationid}/{pointid}/{yyyymmdd_from}/{yyyymmdd_to}")
-SessionsPerPoint sesperpoint(@PathVariable Integer stationid,@PathVariable Integer pointid, @PathVariable String yyyymmdd_from,@PathVariable String yyyymmdd_to){
+String sesperpoint(@PathVariable Integer stationid,@PathVariable Integer pointid, @PathVariable String yyyymmdd_from,@PathVariable String yyyymmdd_to,@RequestParam(required = false) String format){
 
         String startdate = yyyymmdd_from;
         String enddate = yyyymmdd_to;
 
         List<NameOnly> nameonly = repository.perPoint(stationid, pointid, startdate, enddate);
         if(nameonly.size()==0) {
-                return new SessionsPerPoint(0);
+                return null;
         }
         SessionsPerPoint sessionsperpoint = new SessionsPerPoint();
         sessionsperpoint.Point = nameonly.get(0).getCharger_id();
@@ -117,7 +140,50 @@ SessionsPerPoint sesperpoint(@PathVariable Integer stationid,@PathVariable Integ
         }
         sessionsperpoint.ChargingSessionsList = chargingsessionslist;
 
-        return sessionsperpoint;
+
+        String jsonResult;
+        try{
+                ObjectMapper objectMapper = new ObjectMapper();
+                jsonResult = objectMapper.writeValueAsString(sessionsperpoint);
+        }catch(Exception e){
+                return null;
+        }
+
+        if(format == null || format.equals("json")){
+                return jsonResult;
+
+        }
+        else if(format.equals("csv")){
+                SessionsPerPointcsv sessionscsv = new SessionsPerPointcsv();
+                ;
+
+                sessionscsv.Station = sessionsperpoint.Station;
+                sessionscsv.Point = sessionsperpoint.Point;
+                sessionscsv.PointOperator = sessionsperpoint.PointOperator;
+                sessionscsv.RequestTimestamp = sessionsperpoint.RequestTimestamp;
+                sessionscsv.PeriodFrom = sessionsperpoint.PeriodFrom;
+                sessionscsv.PeriodTo = sessionsperpoint.PeriodTo;
+                sessionscsv.NumberOfChargingSessions = sessionsperpoint.NumberOfChargingSessions;
+                sessionscsv.ChargingSessionsList =sessionsperpoint.ChargingSessionsList.toString();
+
+
+                CsvMapper csvMapper = new CsvMapper();
+                String csvResult;
+                CsvSchema schema = csvMapper.schemaFor(SessionsPerPoint.class);
+                try{
+                csvResult = csvMapper.writer(schema.withUseHeader(true)).writeValueAsString(sessionscsv);
+                        return csvResult;
+                }catch(Exception e){
+                        e.printStackTrace();
+                        return null;
+                }
+
+        }
+        else
+                return null;
+
+        //return sessionsperpoint;
+
 
 }
 
@@ -264,10 +330,10 @@ String sesperstation(@PathVariable Integer stationid, @PathVariable String yyyym
                 sessionscsv.Operator = sessionsperstation.Operator;
                 sessionscsv.RequestTimestamp = sessionsperstation.RequestTimestamp;
                 sessionscsv.PeriodFrom = sessionsperstation.PeriodFrom;
+                sessionscsv.PeriodTo = sessionsperstation.PeriodTo;
                 sessionscsv.TotalEnergyDelivered = sessionsperstation.TotalEnergyDelivered;
                 sessionscsv.NumberOfChargingSessions = sessionsperstation.NumberOfChargingSessions;
                 sessionscsv.NumberOfActivePoints = sessionsperstation.NumberOfActivePoints;
-                sessionscsv.PeriodTo = sessionsperstation.PeriodTo;
                 sessionscsv.SessionsSummaryList =sessionsperstation.SessionsSummaryList.toString();
 
 
@@ -304,7 +370,9 @@ String sesperstation(@PathVariable Integer stationid, @PathVariable String yyyym
    public Float CostPerKWh;
    public Float SessionCost;
 
-
+   public String toString(){//overriding the toString() method
+     return SessionIndex+" "+SessionID+" "+EnergyProvider+" "+StartedOn+" "+FinishedOn+" "+EnergyDelivered+" "+PricePolicyRef+" "+CostPerKWh+" "+SessionCost;
+    }
 
    }
 
@@ -325,11 +393,28 @@ String sesperstation(@PathVariable Integer stationid, @PathVariable String yyyym
 
    public List<VehicleChargingSessions> VehicleChargingSessionsList;
 
+   }
+
+   private class SessionsPerEVcsv{
+   SessionsPerEVcsv(){
+   }
+   SessionsPerEVcsv(int t){
+           NumberOfVehicleChargingSessions = t;
+   }
+   public String VehicleID;
+   public String RequestTimestamp;
+   public String PeriodFrom;
+   public String PeriodTo;
+   public Float TotalEnergyConsumed;
+   public Integer NumberOfVisitedPoints;
+   public Integer NumberOfVehicleChargingSessions;
+
+   public String VehicleChargingSessionsList;
 
    }
 
    @GetMapping("/SessionsPerEV/{vehicleid}/{yyyymmdd_from}/{yyyymmdd_to}")
-   SessionsPerEV sesperev(@PathVariable String vehicleid, @PathVariable String yyyymmdd_from,@PathVariable String yyyymmdd_to){
+   String sesperev(@PathVariable String vehicleid, @PathVariable String yyyymmdd_from,@PathVariable String yyyymmdd_to,@RequestParam(required = false) String format){
 
            String startdate = yyyymmdd_from;
            String enddate = yyyymmdd_to;
@@ -338,7 +423,7 @@ String sesperstation(@PathVariable Integer stationid, @PathVariable String yyyym
 
            List<NameOnly> nameonly = repository.perEV(vehicleid, startdate, enddate);
            if(nameonly.size()==0) {
-                   return new SessionsPerEV(0);
+                   return null;
            }
            SessionsPerEV sessionsperev = new SessionsPerEV();
 
@@ -389,7 +474,49 @@ String sesperstation(@PathVariable Integer stationid, @PathVariable String yyyym
            sessionsperev.NumberOfVisitedPoints = visitedpoints.size();
            sessionsperev.VehicleChargingSessionsList = vehiclechargingsessionslist;
 
-           return sessionsperev;
+
+           String jsonResult;
+           try{
+                   ObjectMapper objectMapper = new ObjectMapper();
+                   jsonResult = objectMapper.writeValueAsString(sessionsperev);
+           }catch(Exception e){
+                   return null;
+           }
+
+           if(format == null || format.equals("json")){
+                   return jsonResult;
+
+           }
+           else if(format.equals("csv")){
+                   SessionsPerEVcsv sessionscsv = new SessionsPerEVcsv();
+                   ;
+
+                   sessionscsv.VehicleID = sessionsperev.VehicleID;
+                   sessionscsv.RequestTimestamp = sessionsperev.RequestTimestamp;
+                   sessionscsv.PeriodFrom = sessionsperev.PeriodFrom;
+                   sessionscsv.PeriodTo = sessionsperev.PeriodTo;
+                   sessionscsv.TotalEnergyConsumed = sessionsperev.TotalEnergyConsumed;
+                   sessionscsv.NumberOfVisitedPoints = sessionsperev.NumberOfVisitedPoints;
+                   sessionscsv.NumberOfVehicleChargingSessions = sessionsperev.NumberOfVehicleChargingSessions;
+                   sessionscsv.VehicleChargingSessionsList =sessionsperev.VehicleChargingSessionsList.toString();
+
+
+                   CsvMapper csvMapper = new CsvMapper();
+                   String csvResult;
+                   CsvSchema schema = csvMapper.schemaFor(SessionsPerEV.class);
+                   try{
+                   csvResult = csvMapper.writer(schema.withUseHeader(true)).writeValueAsString(sessionscsv);
+                           return csvResult;
+                   }catch(Exception e){
+                           e.printStackTrace();
+                           return null;
+                   }
+
+           }
+           else
+                   return null;
+
+          // return sessionsperev;
 
    }
 
@@ -411,6 +538,10 @@ public Integer PricePolicyRef;
 //public Integer Protocol;
 public Float CostPerKWh;
 public Float TotalCost;
+
+public String toString(){//overriding the toString() method
+  return ProviderName+","+StationID+","+SessionID+","+VehicleID+","+StartedOn+","+FinishedOn+","+EnergyDelivered+","+PricePolicyRef+","+CostPerKWh+","+TotalCost;
+ }
 
 
 }
@@ -466,31 +597,12 @@ String sesperprovider(@PathVariable String providerid,@PathVariable String yyyym
 
         }
         else if(format.equals("csv")){
-                /*SessionsPerStationcsv sessionscsv = new SessionsPerStationcsv();
-                ;
+                String csvResult =  "ProviderName,StationID,SessionID,VehicleID,StartedOn,FinishedOn,EnergyDelivered,PricePolicyRef,CostPerKWh,TotalCost";
+                for(int i=0;i<result.size();i++){
+                        csvResult += "\n" + result.get(i);
 
-                sessionscsv.StationID = sessionsperstation.StationID;
-                sessionscsv.Operator = sessionsperstation.Operator;
-                sessionscsv.RequestTimestamp = sessionsperstation.RequestTimestamp;
-                sessionscsv.PeriodFrom = sessionsperstation.PeriodFrom;
-                sessionscsv.TotalEnergyDelivered = sessionsperstation.TotalEnergyDelivered;
-                sessionscsv.NumberOfChargingSessions = sessionsperstation.NumberOfChargingSessions;
-                sessionscsv.NumberOfActivePoints = sessionsperstation.NumberOfActivePoints;
-                sessionscsv.PeriodTo = sessionsperstation.PeriodTo;
-                sessionscsv.SessionsSummaryList =sessionsperstation.SessionsSummaryList.toString();*/
-
-
-                CsvMapper csvMapper = new CsvMapper();
-                String csvResult;
-                CsvSchema schema = csvMapper.schemaFor(SessionsPerStation.class);
-                try{
-                csvResult = csvMapper.writer(schema.withUseHeader(true)).writeValueAsString(result);
-                        return csvResult;
-                }catch(Exception e){
-                        e.printStackTrace();
-                        return null;
                 }
-
+                return csvResult;
         }
         else
                 return null;

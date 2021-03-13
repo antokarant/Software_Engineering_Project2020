@@ -19,7 +19,10 @@ var tokenPath = path + "/softeng20bAPI.token";
 
 
 //SessionsPerStation
-const sessionsPerStation = (station, datefrom, dateto) => {
+const sessionsPerStation = (station, datefrom, dateto, format) => {
+        if(format == null)
+                format = "json"
+
         let url = `https://localhost:8765/evcharge/api/SessionsPerStation/${station}/${datefrom}/${dateto}`;
 
         fs.readFile(tokenPath, 'utf8', (err, data) => {
@@ -30,10 +33,13 @@ const sessionsPerStation = (station, datefrom, dateto) => {
                 axios.get(url, {
                                 headers: {
                                         "X-OBSERVATORY-AUTH": `${data}`
+                                },
+                                params: {
+                                        format: format,
                                 }
                         }).then(res => {
                                 let obj = res.data;
-                                JSON.stringify(obj)
+                                //JSON.stringify(obj)
                                 console.log(util.inspect(obj, {
                                         showHidden: false,
                                         depth: null
@@ -46,21 +52,13 @@ const sessionsPerStation = (station, datefrom, dateto) => {
 
         });
 
-        //console.log(url);
-        //console.log(station);
-        //console.log(datefrom);
-        /*https.get(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function(obj) {
-                        console.log(util.inspect(obj, {
-                                showHidden: false,
-                                depth: null
-                        }));
-                });
-        });*/
 }
 
 //SessionsPerPoint
-const sessionsPerPoint = (station, point, datefrom, dateto) => {
+const sessionsPerPoint = (station, point, datefrom, dateto, format) => {
+        if(format == null)
+                format = "json"
+
         let url = `https://localhost:8765/evcharge/api/SessionsPerPoint/${station}/${point}/${datefrom}/${dateto}`;
 
         fs.readFile(tokenPath, 'utf8', (err, data) => {
@@ -71,10 +69,13 @@ const sessionsPerPoint = (station, point, datefrom, dateto) => {
                 axios.get(url, {
                                 headers: {
                                         "X-OBSERVATORY-AUTH": `${data}`
+                                },
+                                params: {
+                                        format: format,
                                 }
                         }).then(res => {
                                 let obj = res.data;
-                                JSON.stringify(obj)
+                                //JSON.stringify(obj)
                                 console.log(util.inspect(obj, {
                                         showHidden: false,
                                         depth: null
@@ -87,19 +88,13 @@ const sessionsPerPoint = (station, point, datefrom, dateto) => {
 
         });
 
-        /*https.get(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function(obj) {
-                        console.log(util.inspect(obj, {
-                                showHidden: false,
-                                depth: null
-                        }));
-                });
-        });*/
-
 }
 
 //SessionsPerEv
-const sessionsPerEV = (ev, datefrom, dateto) => {
+const sessionsPerEV = (ev, datefrom, dateto, format) => {
+        if(format == null)
+                format = "json"
+
         let url = `https://localhost:8765/evcharge/api/SessionsPerEV/${ev}/${datefrom}/${dateto}`;
 
         fs.readFile(tokenPath, 'utf8', (err, data) => {
@@ -110,10 +105,13 @@ const sessionsPerEV = (ev, datefrom, dateto) => {
                 axios.get(url, {
                                 headers: {
                                         "X-OBSERVATORY-AUTH": `${data}`
+                                },
+                                params: {
+                                        format: format,
                                 }
                         }).then(res => {
                                 let obj = res.data;
-                                JSON.stringify(obj)
+                                //JSON.stringify(obj)
                                 console.log(util.inspect(obj, {
                                         showHidden: false,
                                         depth: null
@@ -125,21 +123,13 @@ const sessionsPerEV = (ev, datefrom, dateto) => {
                         });
 
         });
-        //let encoded_url = encodeURIComponent(url);
-        //console.log(encoded_url);
-        /*https.get(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function(obj) {
-                        console.log(util.inspect(obj, {
-                                showHidden: false,
-                                depth: null
-                        }));
-                });
-        });*/
 
 }
 
 //SessionsPerProvider
-const sessionsPerProvider = (provider, datefrom, dateto) => {
+const sessionsPerProvider = (provider, datefrom, dateto, format) => {
+        if(format == null)
+                format = "json"
 
         let url = `https://localhost:8765/evcharge/api/SessionsPerProvider/${provider}/${datefrom}/${dateto}`;
 
@@ -151,10 +141,13 @@ const sessionsPerProvider = (provider, datefrom, dateto) => {
                 axios.get(url, {
                                 headers: {
                                         "X-OBSERVATORY-AUTH": `${data}`
+                                },
+                                params: {
+                                        format: format,
                                 }
                         }).then(res => {
                                 let obj = res.data;
-                                JSON.stringify(obj)
+                                //JSON.stringify(obj)
                                 console.log(util.inspect(obj, {
                                         showHidden: false,
                                         depth: null
@@ -167,14 +160,6 @@ const sessionsPerProvider = (provider, datefrom, dateto) => {
 
         });
 
-        /*https.get(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function(obj) {
-                        console.log(util.inspect(obj, {
-                                showHidden: false,
-                                depth: null
-                        }));
-                });
-        });*/
 }
 const login = (username, password) => {
         let url = `https://localhost:8765/evcharge/api/login`;
@@ -201,16 +186,8 @@ const login = (username, password) => {
                 .catch(error => {
                         console.error("error")
                 });
-        //let encoded_url = encodeURIComponent(url);
-        //let encoded_url = encodeURI(url);
-        //console.log(encoded_url);
-        //https.get(url, res => {
-        //        res.pipe(JSONStream.parse()).on('data', function (obj) {
-        //                console.log(util.inspect(obj, {showHidden: false, depth: null}));
-        //        });
-        //});
-
 }
+
 const logout = () => {
         const path = tokenPath
 
@@ -220,15 +197,13 @@ const logout = () => {
                         return
                 }
 
-                //file removed
         })
 }
 
 const healthcheck = () => {
         let url = `https://localhost:8765/evcharge/api/admin/healthcheck`;
-        //let encoded_url = encodeURIComponent(url);
-        //let encoded_url = encodeURI(url);
-        //console.log(encoded_url);
+
+
         https.get(url, res => {
                 res.pipe(JSONStream.parse()).on('data', function(obj) {
                         console.log(util.inspect(obj, {
@@ -241,17 +216,7 @@ const healthcheck = () => {
 }
 const resetsessions = () => {
         let url = `https://localhost:8765/evcharge/api/admin/resetsessions`;
-        //let encoded_url = encodeURIComponent(url);
-        //let encoded_url = encodeURI(url);
-        //console.log(encoded_url);
-        /*https.post(url, res => {
-                res.pipe(JSONStream.parse()).on('data', function(obj) {
-                        console.log(util.inspect(obj, {
-                                showHidden: false,
-                                depth: null
-                        }));
-                });
-        });*/
+
         axios.post(url, null)
                 .then(res => {
                         let obj = res.data;
@@ -340,16 +305,7 @@ const sessionsupd = (source) => {
                         console.error(err)
                         return
                 }
-                /*const request_config = {
-                        method: "post",
-                        url: url,
-                        headers: {
-                                "Authorization": `${data}`,
-                                "Content-Type": "multipart/form-data"
-                        },
-                        data: form_data
-                };
-                axios.request(request_config)*/
+
                 axios.post(url, form_data, {
                                 headers: {
                                         "X-OBSERVATORY-AUTH": `${data}`,

@@ -28,11 +28,16 @@ program
         .requiredOption("--station <station>", "choose station")
         .requiredOption("--datefrom <datefrom>", "choose datefrom")
         .requiredOption("--dateto <dateto>", "choose dateto")
+        .option("--format <format>", "specify format(json or csv)")
         .action((options) => {
-                //console.log(options.dateto);
-                //program.parse();
-                //let options = program.opts();
-                sessionsPerStation(options.station, options.datefrom, options.dateto);
+                if(!options.format || options.format=="csv" || options.format=="json")
+                        sessionsPerStation(options.station, options.datefrom, options.dateto,options.format);
+                else
+                        console.log("invalid format");
+
+                        //console.log(options.dateto);
+                        //program.parse();
+                        //let options = program.opts();
         });
 
 program
@@ -42,8 +47,14 @@ program
         .requiredOption("--point <point>", "choose point")
         .requiredOption("--datefrom <datefrom>", "choose datefrom")
         .requiredOption("--dateto <dateto>", "choose dateto")
+        .option("--format <format>", "specify format(json or csv)")
         .action((options) => {
-                sessionsPerPoint(options.station, options.point, options.datefrom, options.dateto);
+                if(!options.format || options.format=="csv" || options.format=="json")
+                        sessionsPerPoint(options.station, options.point, options.datefrom, options.dateto,options.format);
+                else
+                        console.log("invalid format");
+
+
         });
 
 program
@@ -52,8 +63,13 @@ program
         .requiredOption("--ev <ev>", "choose vehicle")
         .requiredOption("--datefrom <datefrom>", "choose datefrom")
         .requiredOption("--dateto <dateto>", "choose dateto")
+        .option("--format <format>", "specify format(json or csv)")
         .action((options) => {
-                sessionsPerEV(options.ev, options.datefrom, options.dateto);
+                if(!options.format || options.format=="csv" || options.format=="json")
+                        sessionsPerEV(options.ev, options.datefrom, options.dateto,options.format);
+                else
+                        console.log("invalid format");
+
         });
 
 program
@@ -62,8 +78,12 @@ program
         .requiredOption("--provider <provider>", "choose provider")
         .requiredOption("--datefrom <datefrom>", "choose datefrom")
         .requiredOption("--dateto <dateto>", "choose dateto")
+        .option("--format <format>", "specify format(json or csv)")
         .action((options) => {
-                sessionsPerProvider(options.provider, options.datefrom, options.dateto);
+                if(!options.format || options.format=="csv" || options.format=="json")
+                        sessionsPerProvider(options.provider, options.datefrom, options.dateto,options.format);
+                else
+                        console.log("invalid format");
         });
 
 program
