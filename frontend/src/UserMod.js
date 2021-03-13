@@ -8,7 +8,7 @@ class UserMod extends React.Component
     constructor(props)
     {
         super(props);
-        this.state = { username: null, password: null };
+        this.state = { username: null, password: null, responseReceived: false };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,7 +40,7 @@ class UserMod extends React.Component
                                }
                        }).then(res => {
                                console.log(res.data);
-
+                               this.setState({ responseReceived : true });
                        })
                        .catch(error => {
                                console.error(error)

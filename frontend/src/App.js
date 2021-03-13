@@ -153,11 +153,11 @@ class App extends React.Component {
                             <form>
                                 <label>
                                     Username:
-                                    <input className = "username-field" type = "text" name = "username" />
+                                    <input className = "username-field" type = "text" name = "username" onChange = {this.myChangeHandler} />
                                 </label> <br />
                                 <label>
                                     Password:
-                                    <input className = "password-field" type = "password" name = "password" />
+                                    <input className = "password-field" type = "password" name = "password" onChange = {this.myChangeHandler} />
                                 </label> <br />
                                 <button onClick={this.handleSubmit}>Login</button>
                               </form>
