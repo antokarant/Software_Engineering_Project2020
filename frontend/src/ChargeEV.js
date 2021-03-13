@@ -84,7 +84,14 @@ class ChargeEV extends React.Component
                 </div>
                 <label>
                     Rate:
-                    <input type="range" min="1" max="5" value = {this.state.rating} onChange = {this.handleChange} />
+                    <select className = "rating-field" name = "rating" value = {this.state.rating} onChange={this.handleChange}>
+                        <option></option>
+                        <option value = {1}>1</option>
+                        <option value = {2}>2</option>
+                        <option value = {3}>3</option>
+                        <option value = {4}>4</option>
+                        <option value = {5}>5</option>
+                    </select>
                 </label>
                 <br />
                 <br />
