@@ -54,7 +54,8 @@ class ChargeEV extends React.Component
         // new entry in db with date and time
         if(this.state.vehicle && this.state.station && this.state.charger && this.state.protocol && this.state.policy && this.state.energy)
         {
-            let randomCost = (Math.random() * 0.06 + 0.08).toFixed(2);
+            let randomCost = Math.random() * 0.06 + 0.08;
+            randomCost = Math.round(randomCost * 100) / 100;
             this.setState({ totalCost : randomCost * this.state.energy});
             this.setState({ costPerkWh : randomCost});
             this.setState({ costEstimated : true});

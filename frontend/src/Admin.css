@@ -1,0 +1,15 @@
+.enter-button
+{
+    font-size: 1.1em;
+    margin-right: 5px;
+}
+
+.usermod-area, .userget-area
+{
+    margin-left: 20px;
+}
+
+.username-field, .password-field
+{
+    margin-right: 5px;
+}

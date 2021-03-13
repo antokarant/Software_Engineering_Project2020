@@ -34,7 +34,6 @@ function Navbar(props)
                         </div>
                     </div>
                 </li>
-                <li><Link className = "link-text" to = "/whatever">Whatever</Link></li>
             </ul>
         </nav>
     );

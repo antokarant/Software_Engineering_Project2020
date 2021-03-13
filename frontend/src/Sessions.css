@@ -9,7 +9,8 @@
     margin-left: 20px;
 }
 
-.station-field, .date-field, .point-field, .provider-field
+.station-field, .date-field, .point-field, .provider-field, .vehicle-field
 {
     margin-left: 5px;
+    margin-bottom: 5px;
 }

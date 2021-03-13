@@ -76,17 +76,20 @@ class SessionsPerProvider extends React.Component
         return (
             <div className = "result-area">
                 <table>
-                    <tr>
-                        {Object.entries(this.state.sessionData[0]).map(([key, value]) => <th className = "table-header"> {key} </th> )}
-                    </tr>
-                    { this.state.sessionData.map(function(dict, index){
-                        return (
-                            <tr>
-                                {Object.entries(dict).map(([key, value]) => <td className = "table-data"> {value} </td> )}
-                            </tr>
-                        );})
-                    }
-
+                    <thead>
+                        <tr>
+                            {Object.entries(this.state.sessionData[0]).map(([key, value]) => <th key = {key} className = "table-header"> {key} </th> )}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { this.state.sessionData.map(function(dict, index){
+                            return (
+                                <tr key = {index}>
+                                    {Object.entries(dict).map(([key, value]) => <td key = {key} className = "table-data"> {value} </td> )}
+                                </tr>
+                            );})
+                        }
+                    </tbody>
                 </table>
             </div>
         );

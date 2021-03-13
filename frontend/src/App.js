@@ -116,7 +116,6 @@ class App extends React.Component {
                     <Route exact path = "/sessions-station" component = {SessionsPerStation} />
                     <Route exact path = "/sessions-vehicle" component = {SessionsPerVehicle} />
                     <Route exact path = "/sessions-provider" component = {SessionsPerProvider} />
-                    <Route exact path = "/whatever" component = {Anotherpage} />
                     <Route exact path = "/select-station" component = {SelectStation} />
                     <Route exact path = "/charge-ev" component = {ChargeEV} />
                     <Route exact path = "/diagrams" component = {Diagrams} />
@@ -145,36 +144,6 @@ class App extends React.Component {
                   </div>
             );
         }
-
-
-
-        /*
-        if(this.loggedIn)
-        {
-            console.log("react is fucked");
-            return ( <Homepage /> );
-        }
-        else
-            return (
-
-                <div>
-                    <h1>This is the login page</h1>
-                    <div className = "login-area">
-                        <form>
-                            <label>
-                                Username:
-                                <input className = "username-field" type = "text" name = "username" value = {this.state.username} onChange={this.handleChange} />
-                            </label> <br />
-                            <label>
-                                Password:
-                                <input className = "password-field" type = "password" name = "password" value = {this.state.password} onChange={this.handleChange} />
-                            </label> <br />
-                            <button onClick={this.LoginProcess}>Login</button>
-                          </form>
-                      </div>
-                  </div>
-            );
-*/
 
     }
 

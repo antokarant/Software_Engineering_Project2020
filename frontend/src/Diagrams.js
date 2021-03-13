@@ -191,8 +191,10 @@ class Diagrams extends React.Component
 
     displayAnalytics()
     {
-        let avgenergy = (this.state.stationData["energy"] / this.state.stationData["transactions"]).toFixed(2);
-        let avgincome = (this.state.stationData["income"] / this.state.stationData["transactions"]).toFixed(2);
+        let avgenergy = this.state.stationData["energy"] / this.state.stationData["transactions"];
+        avgenergy = Math.round(avgenergy * 100) / 100;
+        let avgincome = this.state.stationData["income"] / this.state.stationData["transactions"];
+        avgincome = Math.round(avgincome * 100) / 100;
         return (
             <div className = "result-area">
                 <p>Total energy delivered: {this.state.stationData["energy"]}</p>

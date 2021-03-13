@@ -13,3 +13,8 @@
 {
     margin-left: 5px;
 }
+
+.protocol-field, .policy-field
+{
+    margin-right: 5px;
+}
