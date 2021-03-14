@@ -178,13 +178,13 @@ const login = (username, password) => {
                         let obj = res.data;
                         JSON.stringify(obj)
                         fs.writeFile(tokenPath, obj.token, function(err) {
-                                if (err) return console.log(err);
+                                if (err) return console.error(err);
                                 console.log(res.data);
                         });
 
                 })
                 .catch(error => {
-                        console.error("error")
+                        console.error(error)
                 });
 }
 
@@ -323,7 +323,6 @@ const sessionsupd = (source) => {
 
                         })
                         .catch(error => {
-                                console.log("sth went wrong")
                                 console.error(error)
                         });
 
