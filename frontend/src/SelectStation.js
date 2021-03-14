@@ -65,16 +65,6 @@ class SelectStation extends React.Component
                  this.setState({ error: "Information required" });
              }
 
-            let val =  [
-                {"station_id": 1, "location": "52731 Perez Streets Suite 180\nWaynestad, KY 42374", "working_hours": "06:00 - 24:00", "phone": "2104715864", "average_rating": 0, "operator": "Linda Todd", "operational_chargers": 20, "cars_waiting": 2, "average_charging_time": 32, "wait_time_estimation": 3},
-                {"station_id": 2, "location": "USNS Campos\nFPO AA 72176", "working_hours": "06:00 - 24:00", "phone": "2103362328", "average_rating": 1, "operator": "Christopher Cunningham", "operational_chargers": 20, "cars_waiting": 6, "average_charging_time": 33, "wait_time_estimation": 9},
-                {"station_id": 3, "location": "86090 Conway Mill\nEast Darrellville, AK 76689", "working_hours": "06:00 - 24:00", "phone": "2100989703", "average_rating": 0, "operator": "Brandon Thompson", "operational_chargers": 20, "cars_waiting": 5, "average_charging_time": 38, "wait_time_estimation": 9},
-                {"station_id": 4, "location": "41930 Forbes Camp Suite 741\nScottshire, CA 93567", "working_hours": "06:00 - 24:00", "phone": "2102407607", "average_rating": 5, "operator": "Jamie Washington", "operational_chargers": 20, "cars_waiting": 4, "average_charging_time": 39, "wait_time_estimation": 7},
-                {"station_id": 5, "location": "9980 Lewis Trafficway\nStonehaven, ID 31160", "working_hours": "06:00 - 24:00", "phone": "2107577519", "average_rating": 3, "operator": "Edward Hopkins", "operational_chargers": 20, "cars_waiting": 10, "average_charging_time": 34, "wait_time_estimation": 17}
-            ];
-
-            // pretend data came from backend
-
     }
 
     displayResults()

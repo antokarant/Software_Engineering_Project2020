@@ -182,8 +182,8 @@ class Diagrams extends React.Component
     {
         return (
             <div className = "result-area">
-                <p>Total energy consumed: {this.state.vehicleData["energy"]}</p>
-                <p>Total expenses: {this.state.vehicleData["expense"]}</p>
+                <p>Total energy consumed: {this.state.vehicleData["energy"]} kWh</p>
+                <p>Total expenses: {this.state.vehicleData["expense"]} €</p>
                 <p>Number of charging events: {this.state.vehicleData["transactions"]}</p>
             </div>
         )
@@ -197,11 +197,11 @@ class Diagrams extends React.Component
         avgincome = Math.round(avgincome * 100) / 100;
         return (
             <div className = "result-area">
-                <p>Total energy delivered: {this.state.stationData["energy"]}</p>
-                <p>Total income: {this.state.stationData["income"]}</p>
+                <p>Total energy delivered: {this.state.stationData["energy"]} kWh</p>
+                <p>Total income: {this.state.stationData["income"]} €</p>
                 <p>Number of charging events: {this.state.stationData["transactions"]}</p>
-                <p>Average energy per session: {avgenergy}</p>
-                <p>Average income per session: {avgincome}</p>
+                <p>Average energy per session: {avgenergy} kWh</p>
+                <p>Average income per session: {avgincome} €</p>
             </div>
         );
     }
@@ -295,7 +295,7 @@ class Diagrams extends React.Component
     {
         return (
             <div>
-                <h1>Use Case Diagrams</h1>
+                <h1>Third Use Case - Diagrams</h1>
                 <div className = "diagram-form-area">
                     <form onSubmit={this.handleSubmit}>
                         <label>

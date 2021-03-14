@@ -145,7 +145,7 @@ class ChargeEV extends React.Component
     {
         return (
             <div className = "result-area">
-                <p>Cost estimation: {this.state.totalCost}</p>
+                <p>Cost estimation: {this.state.totalCost} €</p>
                 <button className = "cost-button" onClick = {this.handleProceed}>Proceed</button>
             </div>
         )
@@ -155,7 +155,7 @@ class ChargeEV extends React.Component
     {
         return (
             <div>
-                <h1>First Use Case</h1>
+                <h1>Second Use Case - Charging Vehicle</h1>
                 <div className = "charge-form-area">
                     <form>
                         <label>

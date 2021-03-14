@@ -71,7 +71,6 @@ class SessionsPerPoint extends React.Component
 
     displayResults()
     {
-        console.log("in display");
         return (
             <div className = "result-area">
                 <div>
@@ -104,7 +103,7 @@ class SessionsPerPoint extends React.Component
     {
         return (
             <div>
-                <h1>Sessions</h1>
+                <h1>Sessions per Point</h1>
                 <div className = "session-form-area">
                     <form>
                         <label>
