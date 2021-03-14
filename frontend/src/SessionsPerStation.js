@@ -103,7 +103,7 @@ class SessionsPerStation extends React.Component
     {
         return (
             <div>
-                <h1>Sessions</h1>
+                <h1>Sessions per Station</h1>
                 <div className = "session-form-area">
                     <form onSubmit={this.handleSubmit}>
                         <label>

@@ -53,7 +53,7 @@ class SubmitFile extends React.Component
     {
         return (
             <div>
-                <h1>First Use Case</h1>
+                <h1>Upload .csv file</h1>
                 <div className = "file-upload-area">
                     <form>
                         <label className = "file-label">

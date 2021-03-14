@@ -48,9 +48,9 @@ class SessionsPerProvider extends React.Component
                                 }
                         }).then(res => {
                                 let obj = res.data;
-                                JSON.stringify(obj)
+                                JSON.stringify(obj);
 
-                                this.setState({sessionData: obj})
+                                this.setState({sessionData: obj});
                                 if(this.state.sessionData)
                                         this.setState({responseReceived : true});
 
@@ -95,8 +95,7 @@ class SessionsPerProvider extends React.Component
     {
         return (
             <div>
-                    {console.log("sdfsfd")}
-                <h1>Sessions</h1>
+                <h1>Sessions per Provider</h1>
                 <div className = "session-form-area">
                     <form onSubmit={this.handleSubmit}>
                         <label>

@@ -20,12 +20,11 @@ class Homepage extends React.Component
                 <div className = "home-container">
                     <img src = {logo} className = "bg-image" />
                     <div className = "home-text">
-                        <p>όνομα - αμ</p>
-                        <p>όνομα - αμ</p>
-                        <p>όνομα - αμ</p>
-                        <p>όνομα - αμ</p>
+                        <p>Χαράλαμπος Δάλπης - 03117067</p>
+                        <p>Σωτήριος Κανελλόπουλος - 03117101</p>
+                        <p>Αντώνιος Καραντώνης - 03117439</p>
+                        <p>Δημήτριος Κυριακίδης - 03117077</p>
                         <br />
-                        <p><i>Διδάσκων: </i></p>
                     </div>
                 </div>
             </div>

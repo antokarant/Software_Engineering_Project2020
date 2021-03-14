@@ -70,7 +70,6 @@ class SessionsPerVehicle extends React.Component
 
     displayResults()
     {
-        console.log("in display");
         return (
             <div className = "result-area">
                 <div>
@@ -103,7 +102,7 @@ class SessionsPerVehicle extends React.Component
     {
         return (
             <div>
-                <h1>Sessions</h1>
+                <h1>Sessions per Vehicle</h1>
                 <div className = "session-form-area">
                     <form>
                         <label>
