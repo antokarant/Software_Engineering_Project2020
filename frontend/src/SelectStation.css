@@ -1,0 +1,15 @@
+/* login area */
+.area-label, .search-button
+{
+    font-size: 1.1em;
+}
+
+.select-station-area
+{
+    margin-left: 20px;
+}
+
+.sort-by, .sort-by-label
+{
+    margin-left: 5px;
+}

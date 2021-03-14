@@ -1,0 +1,20 @@
+.plot-button, .report-button, .analytics-button
+{
+    font-size: 1.1em;
+    margin-right: 5px;
+}
+
+.diagram-form-area, .result-area
+{
+    margin-left: 20px;
+}
+
+.station-field, .date-field, .point-field, .provider-field
+{
+    margin-left: 5px;
+}
+
+.protocol-field, .policy-field
+{
+    margin-right: 5px;
+}

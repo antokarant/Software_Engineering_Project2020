@@ -1,0 +1,51 @@
+:root {
+    background-color: lightgray;
+}
+
+/* logout button */
+.logout-button
+{
+    font-size: 1.1em;
+    float: right;
+}
+
+.app-header {
+    text-align: left;
+    font-size: 2em;
+}
+
+/* home background image */
+.login-image {
+    width: 100%;
+}
+
+/* https://www.w3schools.com/howto/howto_css_image_text_blocks.asp */
+.home-container {
+  position: relative;
+  margin: 2px;
+}
+
+.home-text {
+  position: absolute;
+  top: 0px;
+  left: 16px;
+}
+
+/* navigation bar */
+nav {
+    background-color: darkgray;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+}
+
+.link-text {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: black;
+}

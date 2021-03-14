@@ -1,9 +1,9 @@
 session_AFTER_INSERT
 
-CREATE DEFINER = CURRENT_USER TRIGGER `database_name`.`session_AFTER_INSERT` AFTER INSERT ON `session` FOR EACH ROW
+CREATE DEFINER=`root`@`localhost` TRIGGER `session_AFTER_INSERT` AFTER INSERT ON `session` FOR EACH ROW
 BEGIN
-SET @n = (SELECT COUNT(*) FROM session WHERE session.charger_station_id = NEW.charger_station_id);
-UPDATE station SET average_rating = (((@n - 1) * average_rating + NEW.rating) / @n) WHERE station.id = NEW.charger_station_id;
+SET @n = (SELECT COUNT(*) FROM session WHERE session.charger_station_id = NEW.charger_station_id AND session.rating IS NOT NULL);
+UPDATE station INNER JOIN session ON station.id = session.charger_station_id SET station.average_rating = IF(NEW.rating IS NULL, station.average_rating, ((@n - 1) * station.average_rating + NEW.rating) / @n) WHERE station.id = NEW.charger_station_id;
 END
 
 ----------
