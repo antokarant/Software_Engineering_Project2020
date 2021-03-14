@@ -121,7 +121,7 @@ class SessionsPerStation extends React.Component
                         <button className = "search-button" onClick = {this.handleSubmit}>Search</button>
                       </form>
                   </div>
-                  {this.state.responseReceived ? this.displayResults() : <div></div>}
+                  {this.state.sessionData ? this.displayResults() : <div></div>}
               </div>
         );
     }

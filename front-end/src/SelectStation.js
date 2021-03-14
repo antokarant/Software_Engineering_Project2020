@@ -113,7 +113,7 @@ class SelectStation extends React.Component
                     </form>
                 </div>
                 <hr/>
-                {this.state.responseReceived ? this.displayResults() : <div></div>}
+                {this.state.stationList ? this.displayResults() : <div></div>}
             </div>
         );
     }

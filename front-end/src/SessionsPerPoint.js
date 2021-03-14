@@ -126,7 +126,7 @@ class SessionsPerPoint extends React.Component
                       </form>
                   </div>
                   <hr />
-                  {this.state.responseReceived ? this.displayResults() : <div></div>}
+                  {this.state.sessionData ? this.displayResults() : <div></div>}
               </div>
         );
     }
