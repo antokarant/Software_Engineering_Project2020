@@ -83,7 +83,7 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
                 // read and write the file to the selected location-
                 byte[] bytes = file.getBytes();
                 System.out.println(bytes);
-                Path path = Paths.get("./userFiles/" + file.getOriginalFilename());
+                Path path = Paths.get(file.getOriginalFilename());
                 Files.write(path, bytes);
                 String [] nextLine;
                 CSVReader reader = new CSVReader(new FileReader(path.normalize().toString()));
