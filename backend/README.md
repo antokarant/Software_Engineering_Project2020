@@ -1,8 +1,7 @@
 ## Συστατικά Εφαρμογής back-end
-* Java, με τις επιπρόσθετες βιβλιοθήκες:
-  * `Java-spring`
-  * `Jdbc connector`
-* Tomcat server
+* Java, με το framework `Java-spring`
+* Το package `JDBC connector`
+* Apache Tomcat server
 * Gradle
 
 ## Βήματα Εγκατάστασης
