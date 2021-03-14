@@ -197,7 +197,7 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
 
 
 
-                //Files.delete(path);
+                Files.delete(path);
 
         } catch (IOException e) {
                 e.printStackTrace();
