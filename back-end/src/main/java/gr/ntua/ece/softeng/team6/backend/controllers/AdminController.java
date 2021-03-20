@@ -108,6 +108,7 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
 
                         }
                 }catch(Exception e) {
+                        reader.close();
                         return "oops bad luck check first line";
                 }
                 while ((nextLine = reader.readNext()) != null) {
@@ -196,7 +197,7 @@ public String fileUpload(@RequestParam("file") MultipartFile file) {
                 }
 
 
-
+                reader.close();
                 Files.delete(path);
 
         } catch (IOException e) {

@@ -49,7 +49,7 @@ with open("randomstations.json", 'w') as f:
         location = fake.address()
         working_hours = "06:00 - 24:00"
         phone = str(random.randint(2100000000, 2109999999))
-        average_rating = 0 # trigger
+        average_rating = round(random.random() * 3 + 2, 2) # trigger
         operator = fake.name()
         operational_chargers = 0 # trigger
         cars_waiting = random.randint(0, 10)
@@ -118,12 +118,13 @@ with open("randomsessions.json", 'w') as f:
             x = random.randint(80, 100)
             for i in range(x):
                 sessionID = i + 1
-                rating = random.choice([None, ceil(nprandom.triangular(1, 4, 5, size = 1)[0])])
+                ## rating = random.choice([None, ceil(nprandom.triangular(1, 4, 5, size = 1)[0])])
+                rating = random.choices(population = [None, ceil(nprandom.triangular(1, 4, 5, size = 1)[0])], weights = [0.3, 0.7])[0]
                 costPerkWh = round(nprandom.triangular(0.08, 0.11, 0.14, size = 1)[0], 2)
                 energyDelivered = round(nprandom.triangular(30, 90, 150, size = 1)[0], 2)
                 totalCost = round(costPerkWh * energyDelivered, 2)
                 paymentMethod = random.choice(["Cash", "Card"])
-                startDate = str(fake.date_between(start_date = '-5y', end_date = 'today'))
+                startDate = str(fake.date_between(start_date = '-2y', end_date = 'today'))
                 endDate = startDate
                 ## peak stupidity
                 ## observe
